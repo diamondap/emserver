@@ -1,0 +1,6 @@
+Django==1.6b4
+South==0.8.2
+beautifulsoup4==4.3.2
+django-extensions==1.2.2
+psycopg2==2.5.1
+six==1.4.1
