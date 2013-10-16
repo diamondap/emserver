@@ -48,9 +48,8 @@ class RouterFeature(models.Model):
         ('blacklist', 'Supports MAC address blacklist'),
         ('password_in_body', 'Router sends password in body of login page'),
         ('alt_mgmt_port', 'Can run admin UI on non-standard HTTP port'))
-    router = models.ForeignKey(Router)
+    router = models.ManyToManyField(Router)
     feature_name = models.CharField(max_length=40, choices=FEATURE_CHOICES)
-    comments = models.TextField(null=True, blank=True)
 
     def __str__(self):
         return self.feature_name
@@ -69,12 +68,20 @@ class RouterPage(models.Model):
     def __str__(self):
         return self.relative_url
 
-class RouterPageHeader(models.Model):
+class RouterPageAttribute(models.Model):
     """
-    Contains headers sent with router pages. These are collected during
-    development and testing.
+    Contains information about attributes associated with router pages.
+    These attributes can help us to identify a specific router from
+    its index page or login page.
     """
+    ATTR_TYPES = (
+        ('header', 'HTTP Header'),
+        ('title', 'Page Title'),
+        ('image', 'Image URL'),
+        ('link', 'Link URL'),
+        ('form', 'HTML Form Attribute'),)
     router_page = models.ForeignKey(RouterPage)
+    type = models.CharField(max_length=40, choices=ATTR_TYPES)
     name = models.CharField(max_length=100)
     value = models.CharField(max_length=1000)
 
