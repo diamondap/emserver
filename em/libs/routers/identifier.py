@@ -1,4 +1,5 @@
 from bs4 import BeautifulSoup
+from em.models import Router, RouterPageAttribute
 
 class Identifier:
     """
@@ -72,3 +73,10 @@ class Identifier:
         for img in self.doc.find_all('img'):
             images.append(img.get('src'))
         return images
+
+    def identify(self):
+        """
+        Returns the router type id, make, model and firmware.
+        """
+        # TODO: Implement identify
+        return Router.objects.all()[0]
