@@ -1,0 +1,71 @@
+{% extends "shared/layout.html" %}
+
+{% block content %}
+
+<h1>{{ router.manufacturer }} {{ router.model }}</h1>
+
+
+<div class="row">
+  <div class="col-lg-4">
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <h3 class="panel-title">Details</h3>
+      </div>
+      <div class="panel-body">
+        <div>Firmware Version: {{ router.firmware_version }}</div>
+        {% for manager in router.manager.all %}
+        <div>Manager: {{ manager.manager }}</div>
+        {% endfor %}
+        <div>Last Updated: {{ router.modified }}</div>
+        <div>Authentication: {{ router.get_auth_protocol_display }}</div>
+        <div>HTTP Protocol: {{ router.protocol }}</div>
+        <div>Standard Port: {{ router.port }}</div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-4">
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <h3 class="panel-title">Features</h3>
+      </div>
+      <div class="panel-body">
+        {% for feature in router.features.all %}
+        <div>{{ feature.get_feature_name_display }}</div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-8">
+    <h2>Pages</h2>
+    <div class="list-group">
+    {% for page in router.pages.all %}
+      <a href="/webadmin/routerpage/{{page.id}}/edit/" class="list-group-item">
+        {{ page.relative_url }} - {{ page.description }}
+      </a>
+    {% endfor %}
+</div>
+
+  </div>
+</div>
+
+
+<!--
+<p>
+  <ul>
+    {% for page in router.pages.all %}
+    <li>{{ page.relative_url }}</li>
+    <li>{{ page.description }}</li>
+    <ul>
+      {% for attr in page.attributes.all %}
+      <li>({{ attr.type }}) {{ attr.name }} = {{ attr.value }}</li>
+      {% endfor %}
+    </ul>
+    {% endfor %}
+  </ul>
+</p>
+-->
+
+{% endblock %}
