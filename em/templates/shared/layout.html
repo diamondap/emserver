@@ -5,7 +5,7 @@
     <script src="{{ STATIC_URL }}js/em.js"></script>
     <link rel="stylesheet" href="{{ STATIC_URL }}css/bootstrap.min.css">
     <link rel="stylesheet" href="{{ STATIC_URL }}css/em.css">
-    {% block title %}Evil Mommy{% endblock %}
+    <title>Evil Mommy {% block title %}{{ page_title }}{% endblock %}</title>
   </head>
   <body>
 

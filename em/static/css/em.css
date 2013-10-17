@@ -1,0 +1,8 @@
+#content, #footer {
+   margin-left: auto;
+   margin-right: auto;
+   width: 95%;
+}
+#footer {
+   text-align: center;
+}
