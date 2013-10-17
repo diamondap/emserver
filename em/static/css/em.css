@@ -6,3 +6,12 @@
 #footer {
    text-align: center;
 }
+.filter-form-container {
+   display: none;
+}
+#create-button-container {
+   float: right;
+}
+#filter-button-container {
+   float: left;
+}
