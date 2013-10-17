@@ -48,7 +48,7 @@ class RouterFeature(models.Model):
         ('blacklist', 'Supports MAC address blacklist'),
         ('password_in_body', 'Router sends password in body of login page'),
         ('alt_mgmt_port', 'Can run admin UI on non-standard HTTP port'))
-    router = models.ManyToManyField(Router)
+    router = models.ManyToManyField(Router, related_name='features')
     feature_name = models.CharField(max_length=40, choices=FEATURE_CHOICES)
 
     def __str__(self):
@@ -59,7 +59,7 @@ class RouterPage(models.Model):
     Contains sample pages from routers used in development and testing.
     These are the admin pages from the router's web UI.
     """
-    router = models.ForeignKey(Router)
+    router = models.ForeignKey(Router, related_name='pages')
     relative_url = models.CharField(max_length=100)
     description = models.CharField(max_length=100)
     body = models.TextField()
@@ -80,7 +80,7 @@ class RouterPageAttribute(models.Model):
         ('image', 'Image URL'),
         ('link', 'Link URL'),
         ('form', 'HTML Form Attribute'),)
-    router_page = models.ForeignKey(RouterPage)
+    router_page = models.ForeignKey(RouterPage, related_name='attributes')
     type = models.CharField(max_length=40, choices=ATTR_TYPES)
     name = models.CharField(max_length=100)
     value = models.CharField(max_length=1000)
@@ -94,7 +94,7 @@ class RouterManager(models.Model):
     manipulate its features. The manager field contains a fully-qualified
     Python class name, such as 'emserver.em.routers.make.model_version'
     """
-    router = models.ForeignKey(Router)
+    router = models.ForeignKey(Router, related_name='manager')
     manager = models.CharField(max_length=400)
 
     def __str__(self):
@@ -120,7 +120,8 @@ class Device(models.Model):
     contain information only if the user is known to have some EM
     product installed on the device.
     """
-    mac_manufacturer = models.ForeignKey(MacManufacturer, null=True)
+    mac_manufacturer = models.ForeignKey(MacManufacturer, null=True,
+                                         related_name='mac_manufacturer')
     mac_address = models.CharField(max_length=50)
     last_ip4_address = models.IPAddressField(null=True, blank=True)
     last_ip6_address = models.GenericIPAddressField(
@@ -157,8 +158,8 @@ class DeviceName(models.Model):
     we don't want User A to name a device "piece of crap" and then have
     that name show up on User B's account.
     """
-    user = models.ForeignKey(User)
-    device = models.ForeignKey(Device)
+    user = models.ForeignKey(User, related_name='user')
+    device = models.ForeignKey(Device, related_name='device')
     name = models.CharField(max_length=100, null=True, blank=True)
 
     unique_together = (("user", "device"),)

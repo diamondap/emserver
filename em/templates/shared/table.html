@@ -53,19 +53,19 @@
             {% for item in tuple %}
               {% if forloop.counter0 == 0 %}
                 <td>
-                  <a href="/{{ object_type }}/{{item}}"
+                  <a href="/webadmin/{{ object_type }}/{{item}}/"
                      class="btn btn-default btn-xs">
                     View
                   </a>
                 {% if supports_edit %}
-                    <a href="/{{ object_type }}/{{item}}/edit"
+                    <a href="/webadmin/{{ object_type }}/{{item}}/edit/"
                        class="btn btn-primary btn-xs" title="Edit">
                       Edit
                     </a>
                 {% endif %}
 
                 {% if supports_delete %}
-                    <a href="javascript:confirmDelete('/{{ object_type }}/{{item}}/delete/');" class="btn btn-danger btn-xs">
+                    <a href="javascript:confirmDelete('/webadmin/{{ object_type }}/{{item}}/delete/');" class="btn btn-danger btn-xs">
                       Delete
                     </a>
                 {% endif %}

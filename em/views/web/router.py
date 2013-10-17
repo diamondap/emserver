@@ -29,12 +29,8 @@ def index(request):
                    'modified']
 
     routers = Router.objects.values_list(*values_list).order_by(*sort_by)
-
-
     router_filter = RouterFilter(request.GET, queryset=routers)
     filtered_routers = router_filter.qs
-
-    print(filtered_routers.query)
 
     return render(request, 'router/index.html',
                   {'page_title': 'Routers',
@@ -45,3 +41,26 @@ def index(request):
                    'supports_delete': True,
                    'tuples': filtered_routers,
                    'filter_form': router_filter.form })
+
+@require_GET
+def detail(request, pk):
+    """
+    Returns information about a single router.
+    """
+    router = Router.objects.prefetch_related(
+        'features', 'pages', 'pages__attributes').get(pk=pk)
+
+    return render(request, 'router/detail.html',
+                  {'page_title': router.model,
+                   'router': router })
+
+
+
+def create(request):
+    pass
+
+def edit(request, pk):
+    pass
+
+def delete(request, pk):
+    pass

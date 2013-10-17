@@ -14,5 +14,13 @@ web_urlpatterns = patterns(
 
 
     # These are administrative pages
-    url(r'^webadmin/router', web_router.index, name='router-index')
+    url(r'^webadmin/router/$', web_router.index, name='router-index'),
+    url(r'^webadmin/router/create/$', web_router.create, name='router-create'),
+    url(r'^webadmin/router/(?P<pk>\d+)/$', web_router.detail,
+        name='router-detail'),
+    url(r'^webadmin/router/(?P<pk>\d+)/edit/$', web_router.edit,
+        name='router-edit'),
+    url(r'^webadmin/router/(?P<pk>\d+)/delete/$', web_router.delete,
+        name='router-delete'),
+
 )
