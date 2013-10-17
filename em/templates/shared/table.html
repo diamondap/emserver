@@ -1,19 +1,20 @@
 {% extends "shared/tablepage.html" %}
 
 {% load sorting_tags %}
+{% load crispy_forms_tags %}
 
 
 {% block table %}
 
 {% auto_sort tuples %}
 
-{% if filter != None %}
+{% if filter_form != None %}
   <div class="filter-form-container">
     <form class="filter-form" action="" method="get">
       <div class="filter-form-inner">
-        {{ filter.form.as_p }}
-        <input type="button" name="cancel" value="Cancel" class="cancel" />
-        <input type="submit" class="submit" />
+        {% crispy filter_form %}
+        <button class="btn btn-default">Cancel</button>
+        <button type="submit" class="btn btn-primary">Submit</button>
       </div>
     </form>
   </div>
@@ -23,13 +24,13 @@
 
   {% if supports_new %}
     <div class="create-new-container">
-      <a class="create-new-link" href="/{{ object_type }}/create">New</a>
+      <a class="btn btn-success" href="/{{ object_type }}/create">New</a>
     </div>
   {% endif %}
 
-  {% if filter != None %}
+  {% if filter_form != None %}
     <div class="filter-button-container">
-      <input class="filter-button" type="Button" value="Filter"></input>
+      <button class="btn btn-default">Filter</button>
     </div>
   {% endif %}
   <div class="clear"></div>

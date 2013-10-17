@@ -27,7 +27,7 @@ DEBUG = True
 ADMIN_ENABLED = True
 TEMPLATE_DEBUG = True
 ALLOWED_HOSTS = []
-
+CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
 # Application definition
 
@@ -44,6 +44,7 @@ INSTALLED_APPS = (
     #'pagination',
     'sorting_bootstrap',
     'django_filters',
+    'crispy_forms'
 )
 
 MIDDLEWARE_CLASSES = (
