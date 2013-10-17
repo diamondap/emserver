@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib import auth
+from django.contrib.auth.models import User
 
 class Router(models.Model):
     """
@@ -94,19 +94,15 @@ class RouterManager(models.Model):
     router = models.ForeignKey(Router)
     manager = models.CharField(max_length=400)
 
-class Network(models.Model):
-    """
-    Contains information about a user's network.
-    """
-    user = models.ForeignKey(auth.models.User)
-    router = models.ForeignKey(Router)
-    router_mac_address = models.CharField(max_length=50, null=True)
-    network_name = models.CharField(max_length=100,
-                                    default="Default Network")
-    is_default = models.BooleanField(default=False)
-    first_seen = models.DateTimeField(auto_now_add=True, editable=False)
-    last_seen = models.DateTimeField(auto_now=True, editable=False)
-    times_seen = models.IntegerField(default=1)
+# http://standards.ieee.org/develop/regauth/oui/oui.txt
+class MacManufacturer(models.Model):
+    mac_prefix = models.CharField(max_length=6, primary_key=True)
+    name = models.CharField(max_length=100)
+    address = models.CharField(max_length=200)
+    city = models.CharField(max_length=50)
+    state = models.CharField(max_length=50)
+    postal_code = models.CharField(max_length=50)
+    country = models.CharField(max_length=50)
 
 class Device(models.Model):
     """
@@ -115,7 +111,8 @@ class Device(models.Model):
     contain information only if the user is known to have some EM
     product installed on the device.
     """
-    network = models.ForeignKey(Network)
+    user = models.ManyToManyField(User)
+    mac_manufacturer = models.ForeignKey(MacManufacturer, null=True)
     mac_address = models.CharField(max_length=50)
     last_ip4_address = models.IPAddressField(null=True, blank=True)
     last_ip6_address = models.GenericIPAddressField(
