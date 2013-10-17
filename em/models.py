@@ -85,6 +85,9 @@ class RouterPageAttribute(models.Model):
     name = models.CharField(max_length=100)
     value = models.CharField(max_length=1000)
 
+    def __str__(self):
+        return "[{0}] [{1}] -> {2}".format(self.type, self.name, self.value)
+
 class RouterManager(models.Model):
     """
     Maps a router to the Python class that can parse its output and
@@ -93,6 +96,9 @@ class RouterManager(models.Model):
     """
     router = models.ForeignKey(Router)
     manager = models.CharField(max_length=400)
+
+    def __str__(self):
+        return self.manager
 
 # http://standards.ieee.org/develop/regauth/oui/oui.txt
 class MacManufacturer(models.Model):
@@ -104,6 +110,9 @@ class MacManufacturer(models.Model):
     postal_code = models.CharField(max_length=50)
     country = models.CharField(max_length=50)
 
+    def __str__(self):
+        return self.name
+
 class Device(models.Model):
     """
     Contains information about a device on a user's network.
@@ -111,7 +120,6 @@ class Device(models.Model):
     contain information only if the user is known to have some EM
     product installed on the device.
     """
-    user = models.ManyToManyField(User)
     mac_manufacturer = models.ForeignKey(MacManufacturer, null=True)
     mac_address = models.CharField(max_length=50)
     last_ip4_address = models.IPAddressField(null=True, blank=True)
@@ -125,8 +133,28 @@ class Device(models.Model):
     installed_em_version = models.CharField(
         max_length=50, null=True, blank=True)
     hostname = models.CharField(max_length=100, null=True, blank=True)
-    user_assigned_name = models.CharField(
-        max_length=100, null=True, blank=True)
     first_seen = models.DateTimeField(auto_now_add=True, editable=False)
     last_seen = models.DateTimeField(auto_now=True, editable=False)
     times_seen = models.IntegerField(default=1)
+
+    def get_name(self, user):
+        name = None
+        try:
+            name = DeviceName.objects.filter(
+                user=user, device=self).values('name')[0]
+        except DoesNotExist:
+            pass
+        return name
+
+    def __str__(self):
+        return self.mac_address
+
+class DeviceName(models.Model):
+    user = models.ForeignKey(User)
+    device = models.ForeignKey(Device)
+    name = models.CharField(max_length=100, null=True, blank=True)
+
+    unique_together = (("user", "device"),)
+
+    def __str__(self):
+        return self.name
