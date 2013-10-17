@@ -150,6 +150,13 @@ class Device(models.Model):
         return self.mac_address
 
 class DeviceName(models.Model):
+    """
+    A single device may show up on several user accounts, since users may
+    carry laptops, tablets and phones to each other's houses. We want each
+    user to be able to give the device a custom name. Or more specifically,
+    we don't want User A to name a device "piece of crap" and then have
+    that name show up on User B's account.
+    """
     user = models.ForeignKey(User)
     device = models.ForeignKey(Device)
     name = models.CharField(max_length=100, null=True, blank=True)

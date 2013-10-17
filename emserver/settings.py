@@ -40,7 +40,10 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django_extensions',
     'em',
-    'rest_framework'
+    'rest_framework',
+    #'pagination',
+    'sorting_bootstrap',
+    'django_filters',
 )
 
 MIDDLEWARE_CLASSES = (

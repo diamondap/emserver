@@ -1,0 +1,17 @@
+{% extends "shared/table.html" %}
+{% load sorting_tags %}
+
+{% block columnheaders %}
+    <td>
+      {% sort_link "Manufacturer" "manufacturer" %}
+    </td>
+    <td>
+      {% sort_link "Model" "model" %}
+    </td>
+    <td>
+        {% sort_link "Firmware Version" "firmware_version" %}
+    </td>
+    <td>
+        {% sort_link "Last Updated" "modified" %}
+    </td>
+{% endblock %}

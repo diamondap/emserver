@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="{{ STATIC_URL }}js/jquery-2.0.3.min.js"></script>
+    <script src="{{ STATIC_URL }}js/em.js"></script>
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/em.css">
+    {% block title %}Evil Mommy{% endblock %}
+  </head>
+  <body>
+
+    <section id="content">
+      {% block content %}{% endblock %}
+    </section>
+
+    <footer id="footer">
+      Copyright Buck&amp;Fitch Technologies 2013 - All Rights Reserved
+    </footer>
+
+  </body>
+</html>

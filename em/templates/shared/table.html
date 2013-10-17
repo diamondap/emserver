@@ -1,0 +1,78 @@
+{% extends "shared/tablepage.html" %}
+
+{% load sorting_tags %}
+
+
+{% block table %}
+
+{% auto_sort tuples %}
+
+{% if filter != None %}
+  <div class="filter-form-container">
+    <form class="filter-form" action="" method="get">
+      <div class="filter-form-inner">
+        {{ filter.form.as_p }}
+        <input type="button" name="cancel" value="Cancel" class="cancel" />
+        <input type="submit" class="submit" />
+      </div>
+    </form>
+  </div>
+{% endif %}
+
+<div class="table-container-inner">
+
+  {% if supports_new %}
+    <div class="create-new-container">
+      <a class="create-new-link" href="/{{ object_type }}/create">New</a>
+    </div>
+  {% endif %}
+
+  {% if filter != None %}
+    <div class="filter-button-container">
+      <input class="filter-button" type="Button" value="Filter"></input>
+    </div>
+  {% endif %}
+  <div class="clear"></div>
+
+  <table cellspacing="0" summary="{{ table_summary }}">
+    <thead>
+          <tr>
+              <td>Details</td>
+              {% if supports_edit %}
+                      <td>Edit</td>
+              {% endif %}
+              {% if supports_delete %}
+                      <td>Delete</td>
+              {% endif %}
+            {% block columnheaders %}
+            {% endblock %}
+          </tr>
+    </thead>
+    <tbody>
+          {% for tuple in tuples %}
+          <tr>
+            {% for item in tuple %}
+              {% if forloop.counter0 == 0 %}
+                <td><a href="/{{ object_type }}/{{item}}">Details</a></td>
+                {% if supports_edit %}
+                  <td><a href="/{{ object_type }}/{{item}}/edit">Edit</a></td>
+                {% endif %}
+
+                {% if supports_delete %}
+                  <td><a href="javascript:confirmDelete('/{{ object_type }}/{{item}}/delete/');">Delete</a></td>
+                {% endif %}
+
+              {% else %}
+                <td>{{ item }}</td>
+              {% endif %}
+            {% endfor %}
+          </tr>
+          {% endfor %}
+    </tbody>
+
+  </table>
+
+
+</div>
+
+{% endblock %}
