@@ -15,3 +15,7 @@
 #filter-button-container {
    float: left;
 }
+
+.btn-top {
+   margin-top: 25px;
+}

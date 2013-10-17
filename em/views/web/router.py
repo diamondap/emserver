@@ -47,9 +47,7 @@ def detail(request, pk):
     """
     Returns information about a single router.
     """
-    router = Router.objects.prefetch_related(
-        'features', 'pages', 'pages__attributes').get(pk=pk)
-
+    router = Router.objects.prefetch_related('features', 'pages').get(pk=pk)
     return render(request, 'router/detail.html',
                   {'page_title': router.model,
                    'router': router })
@@ -57,10 +55,10 @@ def detail(request, pk):
 
 
 def create(request):
-    pass
+    return HttpResponse("Coming soon.")
 
 def edit(request, pk):
-    pass
+    return HttpResponse("Coming soon.")
 
 def delete(request, pk):
-    pass
+    return HttpResponse("Coming soon.")

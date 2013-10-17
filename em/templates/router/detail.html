@@ -2,24 +2,42 @@
 
 {% block content %}
 
-<h1>{{ router.manufacturer }} {{ router.model }}</h1>
+<div class="row">
+  <div class="col-lg-8">
+    <div class="pull-left">
+      <h1>{{ router.manufacturer }} {{ router.model }}</h1>
+    </div>
+    <div class="pull-right">
+      <button id="btn-edit-top" type="button" class="btn btn-primary btn-top">Edit</button>
+      <button id="btn-delete-top" type="button" class="btn btn-danger btn-top">Delete</button>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-8">
+    <p><strong>Firmware Version</strong>: {{ router.firmware_version }}</p>
+    {% for manager in router.manager.all %}
+    <p><strong>Manager</strong>: {{ manager.manager }}</p>
+    {% endfor %}
+    <p><strong>Last Updated</strong>: {{ router.modified }}</p>
+  </div>
+</div>
 
 
 <div class="row">
   <div class="col-lg-4">
     <div class="panel panel-primary">
       <div class="panel-heading">
-        <h3 class="panel-title">Details</h3>
+        <h3 class="panel-title">Access Information</h3>
       </div>
       <div class="panel-body">
-        <div>Firmware Version: {{ router.firmware_version }}</div>
-        {% for manager in router.manager.all %}
-        <div>Manager: {{ manager.manager }}</div>
-        {% endfor %}
-        <div>Last Updated: {{ router.modified }}</div>
-        <div>Authentication: {{ router.get_auth_protocol_display }}</div>
-        <div>HTTP Protocol: {{ router.protocol }}</div>
-        <div>Standard Port: {{ router.port }}</div>
+        <div><strong>Authentication</strong>:
+          {{ router.get_auth_protocol_display }}</div>
+        <div><strong>HTTP Protocol</strong>:
+          {{ router.protocol }}</div>
+        <div><strong>Standard Port</strong>:
+          {{ router.port }}</div>
       </div>
     </div>
   </div>
@@ -42,30 +60,12 @@
     <h2>Pages</h2>
     <div class="list-group">
     {% for page in router.pages.all %}
-      <a href="/webadmin/routerpage/{{page.id}}/edit/" class="list-group-item">
+      <a href="/webadmin/routerpage/{{page.id}}/" class="list-group-item">
         {{ page.relative_url }} - {{ page.description }}
       </a>
-    {% endfor %}
-</div>
-
+      {% endfor %}
+    </div>
   </div>
 </div>
-
-
-<!--
-<p>
-  <ul>
-    {% for page in router.pages.all %}
-    <li>{{ page.relative_url }}</li>
-    <li>{{ page.description }}</li>
-    <ul>
-      {% for attr in page.attributes.all %}
-      <li>({{ attr.type }}) {{ attr.name }} = {{ attr.value }}</li>
-      {% endfor %}
-    </ul>
-    {% endfor %}
-  </ul>
-</p>
--->
 
 {% endblock %}
