@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from django.views.decorators.http import require_GET
 from em.models import Router
+from em.forms import RouterForm
 import django_filters
 
 
@@ -55,7 +56,13 @@ def create(request):
     return HttpResponse("Coming soon.")
 
 def edit(request, pk):
-    return HttpResponse("Coming soon.")
+    router = Router.objects.prefetch_related('features').get(pk=pk)
+    router_form = RouterForm(instance=router)
+    return render(request, 'shared/formpage.html',
+                  {'page_title': router.model,
+                   'form': router_form,
+                   'router': router })
+
 
 def delete(request, pk):
     return HttpResponse("Coming soon.")
