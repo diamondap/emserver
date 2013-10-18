@@ -8,8 +8,8 @@
       <h1>{{ router.manufacturer }} {{ router.model }}</h1>
     </div>
     <div class="pull-right">
-      <button id="btn-edit-top" type="button" class="btn btn-primary btn-top">Edit</button>
-      <button id="btn-delete-top" type="button" class="btn btn-danger btn-top">Delete</button>
+      <button id="btn-edit-top" type="button" class="btn btn-primary btn-top" onclick="location='/webadmin/router/{{router.id}}/edit/'">Edit</button>
+      <button id="btn-delete-top" type="button" class="btn btn-danger btn-top" onclick="alert('No!!');">Delete</button>
     </div>
   </div>
 </div>
