@@ -9,7 +9,7 @@ class FormHandler:
     ENC_TYPE_MULTIPART   = 'multipart/form-data'
 
     def __init__(self, form_class, model_class, redirect_action,
-                 form_template = 'shared/formpage.html'):
+                 form_template='shared/formpage.html', template_data={}):
         self.form_class = form_class
         self.form_template = form_template
         self.model_class = model_class
@@ -17,41 +17,39 @@ class FormHandler:
         self.model_instance = None
         self.form_instance = None
         self.action = None
+        self.template_data = template_data
         self.enc_type = FormHandler.ENC_TYPE_URL_ENCODED
 
-    def handle_get(self, request, id):
-        self.action = 'EDIT' if id else 'CREATE'
-        if id:
-            self.model_instance = get_object_or_404(self.model_class, pk=id)
-            self.form_instance = self.form_class(
-                instance=self.model_instance, session_user=request.user)
+    def handle_get(self, request, model_instance=None):
+        self.action = 'EDIT' if model_instance else 'CREATE'
+        if model_instance:
+            self.model_instance = model_instance
+            self.form_instance = self.form_class(instance=self.model_instance)
         else:
-            self.form_instance = self.form_class(session_user=request.user)
+            self.form_instance = self.form_class()
         return True
 
-    def handle_post(self, request, id):
-        if id:
+    def handle_post(self, request, model_instance=None):
+        if model_instance:
             self.action = 'EDIT'
-            self.model_instance = get_object_or_404(self.model_class, pk=id)
+            self.model_instance = model_instance
             self.form_instance = self.form_class(
                 request.POST, request.FILES,
-                instance=self.model_instance,
-                session_user=request.user)
+                instance=self.model_instance)
         else:
             self.action = 'CREATE'
-            self.form_instance = self.form_class(
-                request.POST, request.FILES, session_user=request.user)
+            self.form_instance = self.form_class(request.POST, request.FILES)
         return self.form_instance.is_valid()
 
-    def create_or_edit(self, request, id=None):
+    def create_or_edit(self, request, pk=None):
         """
         Handles all of the form-related work for editing a model instance.
         Renders an empty form for create or a bound form for edit.
         """
         if request.method == 'GET':
-            self.handle_get(request, id)
+            self.handle_get(request, pk)
         else:
-            if self.handle_post(request, id):
+            if self.handle_post(request, pk):
                 return self.post_succeeded(request)
         return self.render_form(request)
 
@@ -62,14 +60,15 @@ class FormHandler:
         with the Location header set to whatever URL maps to redirect_action.
         """
         obj = self.form_instance.save()
-        url = reverse(self.redirect_action, kwargs={'id': obj.id})
+        url = reverse(self.redirect_action, kwargs={'pk': obj.pk})
         response = HttpResponse()
         response['Location'] = url
         response.status_code = 303
         return response
 
     def render_form(self, request):
-        return render(request, self.form_template,
-                      {'form': self.form_instance,
-                       'action': self.action,
-                       'enc_type': self.enc_type})
+        data = {'form': self.form_instance,
+                'action': self.action,
+                'enc_type': self.enc_type}
+        self.template_data.update(data)
+        return render(request, self.form_template, self.template_data)

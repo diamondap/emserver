@@ -25,14 +25,12 @@
     </div>
 
     <div class="col-lg-6 text-right">
-      {% if supports_new %}
       <div id="create-button-container">
         {% if filter_form != None %}
         <button class="btn btn-default btn-top">Filter</button>
         {% endif %}
-        <a class="btn btn-success btn-top" href="/{{ object_type }}/create">New</a>
+        <a class="btn btn-success btn-top" href="/webadmin/{{ object_type }}/create/">New</a>
       </div>
-      {% endif %}
     </div>
   </div>
 </div>

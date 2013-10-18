@@ -2,6 +2,7 @@ from collections import namedtuple
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.views.decorators.http import require_GET
+from em.libs.form_handler import FormHandler
 from em.models import Router
 from em.forms import RouterForm
 import django_filters
@@ -16,6 +17,7 @@ class RouterFilter(django_filters.FilterSet):
     class Meta:
         model = Router
         fields = ['manufacturer', 'model']
+
 
 @require_GET
 def index(request):
@@ -51,17 +53,18 @@ def detail(request, pk):
                    'router': router })
 
 
-
 def create(request):
-    return HttpResponse("Coming soon.")
+    template_data = {'page_title': 'New Router'}
+    form_handler = FormHandler(RouterForm, Router, 'router-detail',
+                               template_data=template_data)
+    return form_handler.create_or_edit(request)
 
 def edit(request, pk):
-    router = Router.objects.prefetch_related('features').get(pk=pk)
-    router_form = RouterForm(instance=router)
-    return render(request, 'shared/formpage.html',
-                  {'page_title': router.model,
-                   'form': router_form,
-                   'router': router })
+    router = Router.objects.get(pk=pk)
+    template_data = {'page_title': router.model}
+    form_handler = FormHandler(RouterForm, Router, 'router-detail',
+                               template_data=template_data)
+    return form_handler.create_or_edit(request, router)
 
 
 def delete(request, pk):
