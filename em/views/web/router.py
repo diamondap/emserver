@@ -36,9 +36,6 @@ def index(request):
                   {'page_title': 'Routers',
                    'table_summary': 'List of Routers',
                    'object_type': 'router',
-                   'supports_new' : True,
-                   'supports_edit': True,
-                   'supports_delete': True,
                    'tuples': filtered_routers,
                    'filter_form': router_filter.form })
 

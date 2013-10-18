@@ -9,13 +9,9 @@
 .filter-form-container {
    display: none;
 }
-#create-button-container {
-   float: right;
-}
-#filter-button-container {
-   float: left;
-}
-
 .btn-top {
    margin-top: 25px;
+}
+.clickable {
+   cursor: pointer;
 }
