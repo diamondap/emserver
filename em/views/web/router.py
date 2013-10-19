@@ -1,4 +1,5 @@
 from collections import namedtuple
+from django.core.urlresolvers import reverse
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.views.decorators.http import require_GET
@@ -54,17 +55,46 @@ def detail(request, pk):
 
 
 def create(request):
-    template_data = {'page_title': 'New Router'}
-    form_handler = FormHandler(RouterForm, Router, 'router-detail',
-                               template_data=template_data)
-    return form_handler.create_or_edit(request)
+    if request.method == 'POST':
+        form = RouterForm(request.POST, request.FILES)
+        if form.is_valid():
+            router = form.save()
+            for feature in request.POST.getlist('features'):
+               print(feature)
+               router.features.add(feature)
+            router.save()
+            url = reverse('router-detail', kwargs={'pk': router.pk})
+            response = HttpResponse()
+            response['Location'] = url
+            response.status_code = 303
+            return response
+    else:
+        form = RouterForm()
+        template_data = {'page_title': 'New Router',
+                         'form': form}
+    return render(request, 'shared/formpage.html', template_data)
+
 
 def edit(request, pk):
     router = Router.objects.get(pk=pk)
-    template_data = {'page_title': router.model}
-    form_handler = FormHandler(RouterForm, Router, 'router-detail',
-                               template_data=template_data)
-    return form_handler.create_or_edit(request, router)
+    if request.method == 'POST':
+        form = RouterForm(request.POST, request.FILES, instance=router)
+        if form.is_valid():
+            router = form.save()
+            router.features.clear()
+            for feature in request.POST.getlist('features'):
+                router.features.add(feature)
+            router.save()
+            url = reverse('router-detail', kwargs={'pk': router.pk})
+            response = HttpResponse()
+            response['Location'] = url
+            response.status_code = 303
+            return response
+    else:
+        form = RouterForm(instance=router)
+    template_data = {'page_title': router.model,
+                     'form': form}
+    return render(request, 'shared/formpage.html', template_data)
 
 
 def delete(request, pk):

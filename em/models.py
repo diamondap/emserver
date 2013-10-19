@@ -52,7 +52,7 @@ class RouterFeature(models.Model):
     feature_name = models.CharField(max_length=40, choices=FEATURE_CHOICES)
 
     def __str__(self):
-        return self.feature_name
+        return self.get_feature_name_display()
 
 class RouterPage(models.Model):
     """
