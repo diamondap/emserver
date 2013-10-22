@@ -3,7 +3,7 @@
 {% block content %}
 
 <div class="row">
-  <div class="col-lg-8">
+  <div class="col-lg-12">
     <div class="pull-left">
       <h1>{{ router_page.router.manufacturer }} {{ router_page.router.model }}</h1>
     </div>
@@ -15,7 +15,7 @@
 </div>
 
 <div class="row">
-  <div class="col-lg-8">
+  <div class="col-lg-12">
     <p><strong>URL</strong>: {{ router_page.relative_url }}</p>
     <p><strong>Title</strong>: {{ router_page_title }}</p>
     <p><strong>Description</strong>: {{ router_page.description }}</p>
@@ -23,7 +23,7 @@
 </div>
 
 <div class="row">
-  <div class="col-lg-4">
+  <div class="col-lg-6">
     <div class="panel panel-primary">
       <div class="panel-heading">
         <h3 class="panel-title">Headers</h3>
@@ -48,7 +48,7 @@
       </div>
     </div>
   </div>
-  <div class="col-lg-4">
+  <div class="col-lg-6">
     <div class="panel panel-primary">
       <div class="panel-heading">
         <h3 class="panel-title">Form Attributes</h3>
@@ -77,7 +77,7 @@
 
 
 <div class="row">
-  <div class="col-lg-4">
+  <div class="col-lg-6">
     <div class="panel panel-primary">
       <div class="panel-heading">
         <h3 class="panel-title">Images</h3>
@@ -102,7 +102,7 @@
       </div>
     </div>
   </div>
-  <div class="col-lg-4">
+  <div class="col-lg-6">
     <div class="panel panel-primary">
       <div class="panel-heading">
         <h3 class="panel-title">Links</h3>
@@ -131,7 +131,7 @@
 
 
 <div class="row">
-  <div class="col-lg-8">
+  <div class="col-lg-12">
     <h2>Raw HTML</h2>
     <div class="well">
       {{ router_page.body }}
