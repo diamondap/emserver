@@ -16,6 +16,7 @@ def redirect(rpid):
     response.status_code = 303
     return response
 
+
 def edit(request, rpid, attr_type):
     routerpage = RouterPage.objects.get(pk=rpid)
     AttrFormSet = modelformset_factory(RouterPageAttribute,
@@ -41,7 +42,3 @@ def edit(request, rpid, attr_type):
                      'formset': formset,
                      'helper': DefaultFormHelper() }
     return render(request, 'shared/formsetpage.html', template_data)
-
-
-def delete(request, pk):
-    return HttpResponse("Coming soon.")

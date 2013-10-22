@@ -40,8 +40,5 @@ web_urlpatterns = patterns(
     url(r'^webadmin/routerpage_attr/(?P<rpid>\d+)/(?P<attr_type>\w+)/edit/$',
         web.routerpage_attribute.edit,
         name='routerpage_attribute_edit'),
-    url(r'^webadmin/routerpage_attr/(?P<pk>\d+)/delete/$',
-        web.routerpage_attribute.delete,
-        name='routerpage_attribute_delete'),
 
 )
