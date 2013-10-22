@@ -19,3 +19,17 @@
     float: none;
     margin: 0 auto;
 }
+.clickable-glyph {
+   cursor: pointer;
+   margin-top: -18px;
+}
+
+.modal-form {
+   padding: 30px;
+}
+.modal-form div {
+   background-color: #ffffff;
+}
+.form-actions {
+   height: 60px;
+}
