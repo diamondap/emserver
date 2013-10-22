@@ -27,7 +27,9 @@
    margin-top: -18px;
    color: #fff;
 }
-
+.auto-scroll {
+   overflow: auto;
+}
 .modal-form {
    padding: 30px;
 }

@@ -1,11 +1,13 @@
+import requests
 from collections import namedtuple
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.core.urlresolvers import reverse
 from django.views.decorators.http import require_GET
 from django.core.exceptions import ObjectDoesNotExist
-from em.models import RouterPage, RouterPageAttribute
-from em.forms import RouterPageForm
+from em.models import Router, RouterPage, RouterPageAttribute
+from em.forms import RouterPageForm, RouterPageAutoCreateForm
+from em.libs.routers.identifier import Identifier
 
 
 @require_GET
@@ -44,6 +46,7 @@ def save(request, form):
     response.status_code = 303
     return response
 
+
 def create(request, router):
     if request.method == 'POST':
         form = RouterPageForm(request.POST, request.FILES)
@@ -52,8 +55,8 @@ def create(request, router):
     else:
         form = RouterPageForm()
         form.fields['router'].initial = router
-        template_data = {'page_title': 'New Router Page',
-                         'form': form}
+    template_data = {'page_title': 'New Router Page',
+                     'form': form}
     return render(request, 'shared/formpage.html', template_data)
 
 
@@ -68,6 +71,66 @@ def edit(request, pk):
     template_data = {'page_title': routerpage.relative_url,
                      'form': form}
     return render(request, 'shared/formpage.html', template_data)
+
+
+def auto_create(request, router):
+    if request.method == 'POST':
+        url = request.POST.get('url')
+        if url:
+            identifier = Identifier.get_instance(url, requests.get(url))
+            if identifier.parsing_succeeded():
+                page = build_page_from_identifier(request, router, identifier)
+                url = reverse('routerpage_detail', kwargs={'pk': page.pk})
+                response = HttpResponse()
+                response['Location'] = url
+                response.status_code = 303
+                return response
+            else:
+                return HttpResponse("Parsing failed")
+        else:
+            form = RouterPageAutoCreateForm(request.POST, request.FILES)
+    else:
+        form = RouterPageAutoCreateForm()
+    template_data = {'page_title': 'New Router Page',
+                     'form': form}
+    return render(request, 'shared/formpage.html', template_data)
+
+
+def build_page_from_identifier(request, router_id, identifier):
+    router = Router.objects.get(pk=router_id)
+    page = RouterPage(router=router)
+    page.relative_url = identifier.url
+    page.body = identifier.html
+    page.save()
+
+    title = page.get_title()
+    title.value = identifier.title()
+    title.save()
+
+    for href in identifier.links():
+        attr = RouterPageAttribute(router_page=page, type='link', name='link')
+        attr.value = href
+        attr.save()
+
+    for form_attr in identifier.forms():
+        for key in form_attr.keys():
+            attr = RouterPageAttribute(router_page=page, type='form')
+            attr.name = key
+            attr.value = form_attr[key]
+            attr.save()
+
+    for src in identifier.images():
+        attr = RouterPageAttribute(router_page=page, type='image', name='image')
+        attr.value = src
+        attr.save()
+
+    for key in identifier.headers.keys():
+        attr = RouterPageAttribute(router_page=page, type='header')
+        attr.name = key
+        attr.value = identifier.headers[key]
+        attr.save()
+
+    return page
 
 
 def delete(request, pk):

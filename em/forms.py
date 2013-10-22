@@ -53,3 +53,13 @@ class RouterPageForm(forms.ModelForm):
         model = models.RouterPage
         fields = ['router', 'relative_url', 'title', 'description',
                   'body', 'comments']
+
+class RouterPageAutoCreateForm(forms.Form):
+
+    url = forms.URLField(label="Page URL")
+
+    def __init__(self, *args, **kwargs):
+        super(RouterPageAutoCreateForm, self).__init__(*args, **kwargs)
+        self.helper = DefaultFormHelper()
+        self.helper.form_id = 'routerpage-form'
+        self.helper.form_method = 'post'

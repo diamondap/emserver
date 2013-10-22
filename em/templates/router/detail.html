@@ -67,7 +67,7 @@
         <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
         <ul class="dropdown-menu">
           <li><a href="{% url 'routerpage_create' router=router.pk %}">Manually</a></li>
-          <li><a href="#">Automatically</a></li>
+          <li><a href="{% url 'routerpage_auto_create' router=router.pk %}">Automatically</a></li>
         </ul>
       </div>
     </div>

@@ -1,3 +1,5 @@
+from urllib.parse import urlparse
+from requests.models import Response
 from bs4 import BeautifulSoup
 from em.models import Router, RouterPageAttribute
 
@@ -16,6 +18,27 @@ class Identifier:
         self.doc = None
         self.parse_exception = None
         self._parse_html()
+
+    @classmethod
+    def get_instance(self, url, http_response):
+        """
+        Given a URL and an instance of requests.models.Response, this
+        returns a fully-instantiated Identifier. Param URL is a string
+        URL, like 'http://192.168.1.1/login.html'. Param http_response
+        is an instance of requests.models.Response. Return value is an
+        instance of em.libs.router.identifier.Identifier.
+        """
+        if http_response.status_code == 200:
+            headers = {}
+            for name in http_response.headers.keys():
+                headers[name] = http_response.headers[name]
+            parsed_url = urlparse(url)
+            return Identifier(html=http_response.text,
+                              url=parsed_url.path,  # use the relative URL!
+                              port=parsed_url.port,
+                              headers=headers)
+        else:
+            raise RuntimeError("Cannot handle a non-200 HTTP Response.")
 
     def _parse_html(self):
         """

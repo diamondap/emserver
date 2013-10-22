@@ -26,10 +26,10 @@
   <div class="col-lg-6">
     <div class="panel panel-primary">
       <div class="panel-heading">
-        <h3 class="panel-title">Headers</h3>
-        <a class="pull-right glyphicon glyphicon-pencil clickable-glyph" href="{% url 'routerpage_attribute_edit' rpid=router_page.pk attr_type='header' %}"></a>
+        <h3 class="panel-title">Images</h3>
+        <a class="pull-right glyphicon glyphicon-pencil clickable-glyph" href="{% url 'routerpage_attribute_edit' rpid=router_page.pk attr_type='image' %}"></a>
       </div>
-      <div class="panel-body">
+      <div class="panel-body auto-scroll">
         <table class="table table-striped table-bordered table-hover">
           <thead>
             <tr>
@@ -38,10 +38,10 @@
             </tr>
           </thead>
           <tbody>
-            {% for h in headers.all %}
+            {% for i in images.all %}
             <tr>
-              <td>{{ h.name }}</td>
-              <td>{{ h.value }}</td>
+              <td>{{ i.name }}</td>
+              <td>{{ i.value }}</td>
             </tr>
             {% endfor %}
           </tbody>
@@ -55,7 +55,7 @@
         <h3 class="panel-title">Form Attributes</h3>
         <a class="pull-right glyphicon glyphicon-pencil clickable-glyph" href="{% url 'routerpage_attribute_edit' rpid=router_page.pk attr_type='form' %}"></a>
       </div>
-      <div class="panel-body">
+      <div class="panel-body auto-scroll">
         <table class="table table-striped table-bordered table-hover">
           <thead>
             <tr>
@@ -79,13 +79,14 @@
 
 
 <div class="row">
+
   <div class="col-lg-6">
     <div class="panel panel-primary">
       <div class="panel-heading">
-        <h3 class="panel-title">Images</h3>
-        <a class="pull-right glyphicon glyphicon-pencil clickable-glyph" href="{% url 'routerpage_attribute_edit' rpid=router_page.pk attr_type='image' %}"></a>
+        <h3 class="panel-title">Headers</h3>
+        <a class="pull-right glyphicon glyphicon-pencil clickable-glyph" href="{% url 'routerpage_attribute_edit' rpid=router_page.pk attr_type='header' %}"></a>
       </div>
-      <div class="panel-body">
+      <div class="panel-body auto-scroll">
         <table class="table table-striped table-bordered table-hover">
           <thead>
             <tr>
@@ -94,10 +95,10 @@
             </tr>
           </thead>
           <tbody>
-            {% for i in images.all %}
+            {% for h in headers.all %}
             <tr>
-              <td>{{ i.name }}</td>
-              <td>{{ i.value }}</td>
+              <td>{{ h.name }}</td>
+              <td>{{ h.value }}</td>
             </tr>
             {% endfor %}
           </tbody>
@@ -111,7 +112,7 @@
         <h3 class="panel-title">Links</h3>
         <a class="pull-right glyphicon glyphicon-pencil clickable-glyph" href="{% url 'routerpage_attribute_edit' rpid=router_page.pk attr_type='link' %}"></a>
       </div>
-      <div class="panel-body">
+      <div class="panel-body auto-scroll">
         <table class="table table-striped table-bordered table-hover">
           <thead>
             <tr>
