@@ -1,10 +1,7 @@
 from django.forms.models import modelformset_factory
-#from django.forms.models import model_to_dict
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.core.urlresolvers import reverse
-from django.views.decorators.http import require_GET
-from django.core.exceptions import ObjectDoesNotExist
 from em.models import RouterPageAttribute, RouterPage
 from em.forms import DefaultFormHelper
 
