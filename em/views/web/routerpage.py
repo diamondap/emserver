@@ -14,14 +14,10 @@ def detail(request, pk):
     Returns information about a single router.
     """
     router_page = RouterPage.objects.prefetch_related('router').get(pk=pk)
-    headers = RouterPageAttribute.objects.filter(
-        type='header').order_by('name')
-    form_attrs = RouterPageAttribute.objects.filter(
-        type='form').order_by('name')
-    images = RouterPageAttribute.objects.filter(
-        type='image').order_by('value')
-    links = RouterPageAttribute.objects.filter(
-        type='link').order_by('value')
+    headers = router_page.attributes.filter(type='header').order_by('name')
+    form_attrs = router_page.attributes.filter(type='form').order_by('name')
+    images = router_page.attributes.filter(type='image').order_by('value')
+    links = router_page.attributes.filter(type='link').order_by('value')
     try:
         router_page_title = router_page.get_title().value
     except ObjectDoesNotExist:
@@ -40,6 +36,7 @@ def save(request, form):
     page_title = form.instance.get_title()
     page_title.value = request.POST.get('title')
     router_page = form.save()
+    page_title.router_page = router_page
     page_title.save()
     url = reverse('routerpage_detail', kwargs={'pk': router_page.pk})
     response = HttpResponse()
@@ -47,13 +44,14 @@ def save(request, form):
     response.status_code = 303
     return response
 
-def create(request):
+def create(request, router):
     if request.method == 'POST':
         form = RouterPageForm(request.POST, request.FILES)
         if form.is_valid():
             return save(request, form)
     else:
         form = RouterPageForm()
+        form.fields['router'].initial = router
         template_data = {'page_title': 'New Router Page',
                          'form': form}
     return render(request, 'shared/formpage.html', template_data)

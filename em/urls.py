@@ -29,7 +29,8 @@ web_urlpatterns = patterns(
     # RouterPage
     url(r'^webadmin/routerpage/(?P<pk>\d+)/$', web_routerpage.detail,
         name='routerpage_detail'),
-    url(r'^webadmin/routerpage/create/$', web_routerpage.create,
+    url(r'^webadmin/routerpage/(?P<router>\d+)/create/$',
+        web_routerpage.create,
         name='routerpage_create'),
     url(r'^webadmin/routerpage/(?P<pk>\d+)/edit/$', web_routerpage.edit,
         name='routerpage_edit'),

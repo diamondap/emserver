@@ -55,9 +55,19 @@
   </div>
 </div>
 
+
 <div class="row">
   <div class="col-lg-12">
-    <h2>Pages</h2>
+    <div class="pull-left">
+      <h2>Pages</h2>
+    </div>
+    <div class="pull-right">
+      <a id="btn-add-page" class="btn btn-success btn-top" href="{% url 'routerpage_create' router=router.pk %}">Add Page</a>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-lg-12">
     <div class="list-group">
     {% for page in router.pages.all %}
       <a href="/webadmin/routerpage/{{page.id}}/" class="list-group-item">
