@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.core.exceptions import ObjectDoesNotExist
 
 class Router(models.Model):
     """
@@ -64,6 +65,18 @@ class RouterPage(models.Model):
     description = models.CharField(max_length=100)
     body = models.TextField()
     comments = models.TextField(null=True, blank=True)
+    _title = None
+
+    def get_title(self):
+        if self._title is None:
+            try:
+                self._title = self.attributes.get(type='title')
+            except ObjectDoesNotExist:
+                self._title = RouterPageAttribute()
+                self._title.type = 'title'
+                self._title.router_page = self
+        return self._title
+
 
     def __str__(self):
         return self.relative_url
@@ -83,7 +96,7 @@ class RouterPageAttribute(models.Model):
     router_page = models.ForeignKey(RouterPage, related_name='attributes')
     type = models.CharField(max_length=40, choices=ATTR_TYPES)
     name = models.CharField(max_length=100)
-    value = models.CharField(max_length=1000)
+    value = models.CharField(max_length=250)
 
     def __str__(self):
         return "[{0}] [{1}] -> {2}".format(self.type, self.name, self.value)

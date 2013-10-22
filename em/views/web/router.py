@@ -53,21 +53,24 @@ def detail(request, pk):
                   {'page_title': router.model,
                    'router': router })
 
+def save(request, form):
+    router = form.save()
+    router.features.clear()
+    for feature in request.POST.getlist('features'):
+        router.features.add(feature)
+    router.save()
+    url = reverse('router_detail', kwargs={'pk': router.pk})
+    response = HttpResponse()
+    response['Location'] = url
+    response.status_code = 303
+    return response
+
 
 def create(request):
     if request.method == 'POST':
         form = RouterForm(request.POST, request.FILES)
         if form.is_valid():
-            router = form.save()
-            for feature in request.POST.getlist('features'):
-               print(feature)
-               router.features.add(feature)
-            router.save()
-            url = reverse('router-detail', kwargs={'pk': router.pk})
-            response = HttpResponse()
-            response['Location'] = url
-            response.status_code = 303
-            return response
+            return save(request, form)
     else:
         form = RouterForm()
         template_data = {'page_title': 'New Router',
@@ -80,16 +83,7 @@ def edit(request, pk):
     if request.method == 'POST':
         form = RouterForm(request.POST, request.FILES, instance=router)
         if form.is_valid():
-            router = form.save()
-            router.features.clear()
-            for feature in request.POST.getlist('features'):
-                router.features.add(feature)
-            router.save()
-            url = reverse('router-detail', kwargs={'pk': router.pk})
-            response = HttpResponse()
-            response['Location'] = url
-            response.status_code = 303
-            return response
+            return save(request, form)
     else:
         form = RouterForm(instance=router)
     template_data = {'page_title': router.model,

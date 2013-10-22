@@ -1,9 +1,11 @@
 from collections import namedtuple
 from django.http import HttpResponse
 from django.shortcuts import render
+from django.core.urlresolvers import reverse
 from django.views.decorators.http import require_GET
 from django.core.exceptions import ObjectDoesNotExist
 from em.models import RouterPage, RouterPageAttribute
+from em.forms import RouterPageForm
 
 
 @require_GET
@@ -21,8 +23,7 @@ def detail(request, pk):
     links = RouterPageAttribute.objects.filter(
         type='link').order_by('value')
     try:
-        router_page_title = RouterPageAttribute.objects.filter(
-            type='title').values('value').order_by('value').all()[0]['value']
+        router_page_title = router_page.get_title().value
     except ObjectDoesNotExist:
         router_page_title = "[Unknown or Missing]"
 
@@ -35,12 +36,41 @@ def detail(request, pk):
                    'links': links,
                    'router_page_title': router_page_title })
 
+def save(request, form):
+    page_title = form.instance.get_title()
+    page_title.value = request.POST.get('title')
+    router_page = form.save()
+    page_title.save()
+    url = reverse('routerpage_detail', kwargs={'pk': router_page.pk})
+    response = HttpResponse()
+    response['Location'] = url
+    response.status_code = 303
+    return response
 
 def create(request):
-    return HttpResponse("Coming soon.")
+    if request.method == 'POST':
+        form = RouterPageForm(request.POST, request.FILES)
+        if form.is_valid():
+            return save(request, form)
+    else:
+        form = RouterPageForm()
+        template_data = {'page_title': 'New Router Page',
+                         'form': form}
+    return render(request, 'shared/formpage.html', template_data)
+
 
 def edit(request, pk):
-    return HttpResponse("Coming soon.")
+    routerpage = RouterPage.objects.get(pk=pk)
+    if request.method == 'POST':
+        form = RouterPageForm(request.POST, request.FILES, instance=routerpage)
+        if form.is_valid():
+            return save(request, form)
+    else:
+        form = RouterPageForm(instance=routerpage)
+    template_data = {'page_title': routerpage.relative_url,
+                     'form': form}
+    return render(request, 'shared/formpage.html', template_data)
+
 
 def delete(request, pk):
     return HttpResponse("Coming soon.")

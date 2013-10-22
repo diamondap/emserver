@@ -35,3 +35,21 @@ class RouterForm(forms.ModelForm):
 
     class Meta:
         model = models.Router
+
+class RouterPageForm(forms.ModelForm):
+
+    title = forms.CharField(label="Page Title")
+
+    def __init__(self, *args, **kwargs):
+        super(RouterPageForm, self).__init__(*args, **kwargs)
+        self.helper = DefaultFormHelper()
+        self.helper.form_id = 'routerpage-form'
+        self.helper.form_method = 'post'
+        if self.instance:
+            self.fields['title'].initial = self.instance.get_title().value
+        feature_dict = {}
+
+    class Meta:
+        model = models.RouterPage
+        fields = ['router', 'relative_url', 'title', 'description',
+                  'body', 'comments']
