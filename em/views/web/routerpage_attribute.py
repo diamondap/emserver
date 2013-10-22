@@ -1,73 +1,66 @@
-from collections import namedtuple
+from django.forms.models import modelformset_factory
+#from django.forms.models import model_to_dict
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.core.urlresolvers import reverse
 from django.views.decorators.http import require_GET
 from django.core.exceptions import ObjectDoesNotExist
-from em.models import RouterPage, RouterPageAttribute
-from em.forms import RouterPageForm
+from em.models import RouterPageAttribute, RouterPage
+from em.forms import DefaultFormHelper
 
 
-@require_GET
-def detail(request, pk):
-    """
-    Returns information about a single router.
-    """
-    router_page = RouterPage.objects.prefetch_related('router').get(pk=pk)
-    headers = router_page.attributes.filter(type='header').order_by('name')
-    form_attrs = router_page.attributes.filter(type='form').order_by('name')
-    images = router_page.attributes.filter(type='image').order_by('value')
-    links = router_page.attributes.filter(type='link').order_by('value')
-    try:
-        router_page_title = router_page.get_title().value
-    except ObjectDoesNotExist:
-        router_page_title = "[Unknown or Missing]"
-
-    return render(request, 'routerpage/detail.html',
-                  {'page_title': router_page.router.model + " Page",
-                   'router_page': router_page,
-                   'headers': headers,
-                   'form_attrs': form_attrs,
-                   'images': images,
-                   'links': links,
-                   'router_page_title': router_page_title })
-
-def save(request, form):
-    page_title = form.instance.get_title()
-    page_title.value = request.POST.get('title')
-    router_page = form.save()
-    page_title.router_page = router_page
-    page_title.save()
-    url = reverse('routerpage_detail', kwargs={'pk': router_page.pk})
+def redirect(rpid):
+    url = reverse('routerpage_detail', kwargs={'pk': rpid})
     response = HttpResponse()
     response['Location'] = url
     response.status_code = 303
     return response
 
-def create(request, router):
+def create(request, rpid, attr_type):
+    routerpage = RouterPage.objects.get(pk=rpid)
+    AttrFormSet = modelformset_factory(RouterPageAttribute,
+                                       fields=('name', 'value'),
+                                       extra=10)
     if request.method == 'POST':
-        form = RouterPageForm(request.POST, request.FILES)
-        if form.is_valid():
-            return save(request, form)
+        formset = AttrFormSet(request.POST)
+        for form in formset:
+            form.instance.router_page = routerpage
+            form.instance.attr_type = attr_type
+        if formset.is_valid():
+            attrs = formset.save()
+            return redirect(rpid)
     else:
-        form = RouterPageForm()
-        form.fields['router'].initial = router
-        template_data = {'page_title': 'New Router Page',
-                         'form': form}
-    return render(request, 'shared/formpage.html', template_data)
+        formset = AttrFormSet()
+    title = '{0} {1} Attributes'.format(routerpage.relative_url, attr_type)
+    template_data = {'page_title': title,
+                     'formset': formset}
+    return render(request, 'shared/formsetpage.html', template_data)
 
 
-def edit(request, pk):
-    routerpage = RouterPage.objects.get(pk=pk)
+def edit(request, rpid, attr_type):
+    routerpage = RouterPage.objects.get(pk=rpid)
+    AttrFormSet = modelformset_factory(RouterPageAttribute,
+                                       fields=('name', 'value'),
+                                       extra=4)
     if request.method == 'POST':
-        form = RouterPageForm(request.POST, request.FILES, instance=routerpage)
-        if form.is_valid():
-            return save(request, form)
+        formset = AttrFormSet(request.POST)
+        for form in formset:
+            form.instance.router_page = routerpage
+            form.instance.type = attr_type
+            print(form.instance)
+        if formset.is_valid():
+            attrs = formset.save()
+            print(attrs)
+            return redirect(rpid)
     else:
-        form = RouterPageForm(instance=routerpage)
-    template_data = {'page_title': routerpage.relative_url,
-                     'form': form}
-    return render(request, 'shared/formpage.html', template_data)
+        qs = RouterPageAttribute.objects.filter(
+            router_page=rpid, type=attr_type).order_by('name')
+        formset = AttrFormSet(queryset=qs)
+    title = '{0} {1} Attributes'.format(routerpage.relative_url, attr_type)
+    template_data = {'page_title': title,
+                     'formset': formset,
+                     'helper': DefaultFormHelper() }
+    return render(request, 'shared/formsetpage.html', template_data)
 
 
 def delete(request, pk):

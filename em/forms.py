@@ -53,16 +53,3 @@ class RouterPageForm(forms.ModelForm):
         model = models.RouterPage
         fields = ['router', 'relative_url', 'title', 'description',
                   'body', 'comments']
-
-
-class RouterPageAttributeForm(forms.ModelForm):
-
-    def __init__(self, *args, **kwargs):
-        super(RouterPageForm, self).__init__(*args, **kwargs)
-        self.helper = DefaultFormHelper()
-        self.helper.form_id = 'routerpage-attribute-form'
-        self.helper.form_method = 'post'
-        feature_dict = {}
-
-    class Meta:
-        model = models.RouterPageAttribute

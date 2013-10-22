@@ -1,0 +1,15 @@
+{% extends "shared/layout.html" %}
+
+{% block title %}{{ page_title }}{% endblock %}
+
+{% block content %}
+
+
+<div class="row">
+  <div class="col-lg-4 centered">
+    <h1>{{ page_title }}</h1>
+    {% include "shared/formset.html" %}
+  </div>
+</div>
+
+{% endblock %}
