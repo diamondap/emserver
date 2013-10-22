@@ -68,12 +68,12 @@ class Identifier:
 
     def links(self):
         """
-        Returns the href attribute of the all the links in the HTML document
-        as a list of strings.
+        Returns a list of dictionaries. Each dictionary represents a link,
+        with keys 'text' and 'href'.
         """
         links = []
         for link in self.doc.find_all('a'):
-            links.append(link.get('href'))
+            links.append({'href': link.get('href'), 'text': link.text})
         return links
 
     def forms(self):

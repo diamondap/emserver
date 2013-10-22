@@ -107,9 +107,10 @@ def build_page_from_identifier(request, router_id, identifier):
     title.value = identifier.title()
     title.save()
 
-    for href in identifier.links():
-        attr = RouterPageAttribute(router_page=page, type='link', name='link')
-        attr.value = href
+    for link in identifier.links():
+        attr = RouterPageAttribute(router_page=page, type='link')
+        attr.name = link['text']
+        attr.value = link['href']
         attr.save()
 
     for form_attr in identifier.forms():
