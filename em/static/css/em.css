@@ -12,6 +12,9 @@
 .btn-top {
    margin-top: 25px;
 }
+.btn-header-aligned {
+   margin-top: 15px;
+}
 .clickable {
    cursor: pointer;
 }
