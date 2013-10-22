@@ -8,8 +8,8 @@
       <h1>{{ router_page.router.manufacturer }} {{ router_page.router.model }}</h1>
     </div>
     <div class="pull-right">
-      <button id="btn-edit-top" type="button" class="btn btn-primary btn-top">Edit</button>
-      <button id="btn-delete-top" type="button" class="btn btn-danger btn-top">Delete</button>
+      <a id="btn-edit-top" class="btn btn-primary btn-top" href="{% url 'routerpage_edit' pk=router_page.pk %}">Edit</a>
+      <a id="btn-delete-top" class="btn btn-danger btn-top" href="{% url 'routerpage_delete' pk=router_page.pk %}">Delete</a>
     </div>
   </div>
 </div>
