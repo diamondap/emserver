@@ -16,31 +16,11 @@ def redirect(rpid):
     response.status_code = 303
     return response
 
-def create(request, rpid, attr_type):
-    routerpage = RouterPage.objects.get(pk=rpid)
-    AttrFormSet = modelformset_factory(RouterPageAttribute,
-                                       fields=('name', 'value'),
-                                       extra=10)
-    if request.method == 'POST':
-        formset = AttrFormSet(request.POST)
-        for form in formset:
-            form.instance.router_page = routerpage
-            form.instance.attr_type = attr_type
-        if formset.is_valid():
-            attrs = formset.save()
-            return redirect(rpid)
-    else:
-        formset = AttrFormSet()
-    title = '{0} {1} Attributes'.format(routerpage.relative_url, attr_type)
-    template_data = {'page_title': title,
-                     'formset': formset}
-    return render(request, 'shared/formsetpage.html', template_data)
-
-
 def edit(request, rpid, attr_type):
     routerpage = RouterPage.objects.get(pk=rpid)
     AttrFormSet = modelformset_factory(RouterPageAttribute,
                                        fields=('name', 'value'),
+                                       can_delete=True,
                                        extra=4)
     if request.method == 'POST':
         formset = AttrFormSet(request.POST)
