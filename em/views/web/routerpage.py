@@ -70,7 +70,8 @@ def auto_create(request, router):
     if request.method == 'POST':
         url = request.POST.get('url')
         if url:
-            identifier = Identifier.get_instance(url, requests.get(url, 3))
+            identifier = Identifier.get_instance(
+                url, requests.get(url, timeout=3))
             if identifier.parsing_succeeded():
                 page = build_page_from_identifier(request, router, identifier)
                 url = reverse('routerpage_detail', kwargs={'pk': page.pk})
@@ -128,7 +129,8 @@ def build_page_from_identifier(request, router_id, identifier):
     for key in identifier.headers.keys():
         attr = RouterPageAttribute(router_page=page, type='header')
         attr.name = key
-        attr.value = identifier.headers[key]
+        if identifier.headers[key]:
+            attr.value = identifier.headers[key][0:250]
         attr.save()
 
     for element in identifier.form_elements():

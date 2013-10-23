@@ -31,7 +31,17 @@ class RouterPageTest(TestCase):
                 relative_url=self.data['relative_url']).first())
 
     def test_auto_create(self):
-        pass
+        client = tests.admin_client()
+        response = client.post(
+            reverse('routerpage_auto_create',
+                    kwargs={'router': tests.ROUTER_ID}),
+            {'url': 'http://www.google.com'})
+        self.assertEqual(303, response.status_code)
+        page = models.RouterPage.objects.exclude(
+            pk=tests.ROUTER_PAGE_ID).first()
+        self.assertIsNotNone(page)
+        self.assertTrue(len(list(page.get_headers())) > 1)
+        self.assertTrue(len(list(page.get_links())) > 1)
 
     def test_edit(self):
         client = tests.admin_client()
