@@ -15,10 +15,11 @@
 </div>
 
 <div class="row">
-  <div class="col-lg-12">
+  <div class="col-lg-6">
     <p><strong>URL</strong>: {{ router_page.relative_url }}</p>
     <p><strong>Title</strong>: {{ router_page_title }}</p>
     <p><strong>Description</strong>: {{ router_page.description }}</p>
+    <p><strong>Comments</strong>: {{ router_page.comments }}</p>
   </div>
 </div>
 
@@ -139,7 +140,9 @@
   <div class="col-lg-12">
     <h2>Raw HTML</h2>
     <div class="well">
-      {{ router_page.body }}
+      <pre>
+{{ router_page.body }}
+      </pre>
     </div>
 
   </div>
