@@ -1,7 +1,6 @@
 from django.test import TestCase
 from django.core.urlresolvers import reverse
-import em.tests as tests
-from em import models
+from em import models, tests
 
 class RouterTest(TestCase):
 

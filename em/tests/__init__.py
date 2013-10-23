@@ -16,6 +16,7 @@ DB_FIXTURES = ["initial_data.json"]
 
 # The one router in our fixture data
 ROUTER_ID = 1
+ROUTER_PAGE_ID = 1
 
 def load_fixture(filename):
     """
