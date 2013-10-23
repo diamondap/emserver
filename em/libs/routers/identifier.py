@@ -73,7 +73,7 @@ class Identifier:
         """
         links = []
         for link in self.doc.find_all('a'):
-            links.append({'href': link.get('href'), 'text': link.text})
+            links.append({'href': link.get('href'), 'text': link.text.strip()})
         return links
 
     def form_attrs(self):

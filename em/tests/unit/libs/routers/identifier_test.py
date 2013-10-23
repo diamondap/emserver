@@ -34,7 +34,12 @@ class IdentifierTest(unittest.TestCase):
 
     def test_links(self):
         id_obj = self.get_id_instance()
-        links = ['advance.asp', 'advance.asp', 'advance.asp']
+        links = [{'href': 'advance.asp',
+                  'text': 'document.write(_("Advanced Settings"));'},
+                 {'href': 'advance.asp',
+                  'text': 'document.write(_("Advanced Settings"))'},
+                 {'href': 'advance.asp',
+                  'text': 'document.write(_("Advanced Settings"))'},]
         self.assertEqual(links, id_obj.links())
 
     def test_form_attrs(self):
@@ -48,3 +53,32 @@ class IdentifierTest(unittest.TestCase):
         id_obj = self.get_id_instance()
         images = ['logo_420x30.jpg']
         self.assertEqual(images, id_obj.images())
+
+    def test_form_elements(self):
+        id_obj = self.get_id_instance()
+        elems = [{'type': 'hidden', 'value': 'index.asp', 'name': 'GO'},
+                 {'type': 'hidden', 'value': None, 'name': 'v12_time'},
+                 {'type': 'hidden', 'value': None, 'name': 'WANT1'},
+                 {'type': 'radio', 'value': '2', 'name': 'isp'},
+                 {'type': 'radio', 'value': '3', 'name': 'isp'},
+                 {'type': 'text', 'value': None, 'name': 'PPW'},
+                 {'type': 'text', 'value': None, 'name': 'SSID'},
+                 {'type': 'text', 'value': None, 'name': 'wirelesspassword'},
+                 {'type': 'button', 'value': '', 'name': 'button'}]
+        self.assertEqual(elems, id_obj.form_elements())
+
+    def test_scripts(self):
+        id_obj = self.get_id_instance()
+        scripts = ['lang/b28n.js',
+                   'gozila.js',
+                   'table.js',
+                   'menu.js',
+                   '[Inline 1]',
+                   '[Inline 2]',
+                   '[Inline 3]',
+                   '[Inline 4]',
+                   '[Inline 5]',
+                   '[Inline 6]',
+                   '[Inline 7]',
+                   '[Inline 8]']
+        self.assertEqual(scripts, id_obj.scripts())
