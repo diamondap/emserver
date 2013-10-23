@@ -70,7 +70,7 @@ def auto_create(request, router):
     if request.method == 'POST':
         url = request.POST.get('url')
         if url:
-            identifier = Identifier.get_instance(url, requests.get(url))
+            identifier = Identifier.get_instance(url, requests.get(url, 3))
             if identifier.parsing_succeeded():
                 page = build_page_from_identifier(request, router, identifier)
                 url = reverse('routerpage_detail', kwargs={'pk': page.pk})
