@@ -77,6 +77,24 @@ class RouterPage(models.Model):
                 self._title.router_page = self
         return self._title
 
+    def get_headers(self):
+        return self.attributes.filter(type='header').order_by('name')
+
+    def get_form_attributes(self):
+        return self.attributes.filter(type='form').order_by('name')
+
+    def get_images(self):
+        return self.attributes.filter(type='image').order_by('value')
+
+    def get_links(self):
+        return self.attributes.filter(type='link').order_by('value')
+
+    def get_scripts(self):
+        return self.attributes.filter(type='script').order_by('value')
+
+    def get_form_fields(self):
+        return self.attributes.filter(
+            type__in=RouterPageAttribute.FORM_FIELD_TYPES).order_by('value')
 
     def __str__(self):
         return self.relative_url
@@ -104,6 +122,10 @@ class RouterPageAttribute(models.Model):
         ('button', 'HTML Button Input'),
         ('submit', 'HTML Submit Input'),
         ('script', 'JavaScript File'),)
+    FORM_FIELD_TYPES = ['text', 'textarea', 'radio', 'checkbox',
+                        'password', 'file', 'image', 'hidden',
+                        'button', 'submit']
+
     router_page = models.ForeignKey(RouterPage, related_name='attributes')
     type = models.CharField(max_length=40, choices=ATTR_TYPES)
     name = models.CharField(max_length=100)

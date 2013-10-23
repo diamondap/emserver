@@ -15,32 +15,17 @@ def detail(request, pk):
     """
     Returns information about a single router.
     """
-    form_field_types = ['text', 'textarea', 'radio', 'checkbox',
-                        'password', 'file', 'image', 'hidden',
-                        'button', 'submit']
     router_page = RouterPage.objects.prefetch_related('router').get(pk=pk)
-    headers = router_page.attributes.filter(type='header').order_by('name')
-    form_attrs = router_page.attributes.filter(type='form').order_by('name')
-    images = router_page.attributes.filter(type='image').order_by('value')
-    links = router_page.attributes.filter(type='link').order_by('value')
-    scripts = router_page.attributes.filter(type='script').order_by('value')
-    form_fields = router_page.attributes.filter(
-        type__in=form_field_types).order_by('value')
-    try:
-        router_page_title = router_page.get_title().value
-    except ObjectDoesNotExist:
-        router_page_title = "[Unknown or Missing]"
-
     return render(request, 'routerpage/detail.html',
                   {'page_title': router_page.router.model + " Page",
                    'router_page': router_page,
-                   'headers': headers,
-                   'form_attrs': form_attrs,
-                   'images': images,
-                   'links': links,
-                   'scripts': scripts,
-                   'form_fields': form_fields,
-                   'router_page_title': router_page_title })
+                   'headers': router_page.get_headers(),
+                   'form_attrs': router_page.get_form_attributes(),
+                   'images': router_page.get_images(),
+                   'links': router_page.get_links(),
+                   'scripts': router_page.get_scripts(),
+                   'form_fields': router_page.get_form_fields(),
+                   'router_page_title': router_page.get_title() })
 
 def save(request, form):
     page_title = form.instance.get_title()
