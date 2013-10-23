@@ -4,7 +4,7 @@ from django.test.client import Client
 
 test_dir = dirname(realpath(__file__))
 code_dir = abspath(normpath(join(test_dir, '..')))
-fixture_dir = abspath(join(test_dir, 'fixtures'))
+fixture_dir = abspath(join(code_dir, 'fixtures'))
 sys.path.append(code_dir)
 
 SU_LOGIN = 'admin'

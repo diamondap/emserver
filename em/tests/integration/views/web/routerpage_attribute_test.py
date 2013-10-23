@@ -1,7 +1,7 @@
-import unittest
+from django.test import TestCase
 import em.tests as tests
 
-class RouterPageAttributeTest(unittest.TestCase):
+class RouterPageAttributeTest(TestCase):
 
     fixtures = tests.DB_FIXTURES
 

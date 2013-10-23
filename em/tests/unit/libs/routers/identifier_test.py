@@ -1,8 +1,8 @@
-import unittest
+from django.test import TestCase
 from tests import load_fixture
 from em.libs.routers.identifier import Identifier
 
-class IdentifierTest(unittest.TestCase):
+class IdentifierTest(TestCase):
 
     def setUp(self):
         self.html = load_fixture('html/router_index.html')

@@ -1,12 +1,14 @@
-import unittest
+from django.test import TestCase
 import em.tests as tests
 
-class RouterTest(unittest.TestCase):
+class RouterTest(TestCase):
 
     fixtures = tests.DB_FIXTURES
 
     def test_index(self):
-        pass
+        from em.models import Router
+        router = Router.objects.all()[0]
+        self.assertIsNotNone(router)
 
     def test_detail(self):
         pass
