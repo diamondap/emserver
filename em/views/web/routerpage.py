@@ -1,7 +1,7 @@
 import requests
 from collections import namedtuple
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.core.urlresolvers import reverse
 from django.views.decorators.http import require_GET
 from django.core.exceptions import ObjectDoesNotExist
@@ -61,14 +61,14 @@ def create(request, router):
 
 
 def edit(request, pk):
-    routerpage = RouterPage.objects.get(pk=pk)
+    router_page = RouterPage.objects.get(pk=pk)
     if request.method == 'POST':
-        form = RouterPageForm(request.POST, request.FILES, instance=routerpage)
+        form = RouterPageForm(request.POST, request.FILES, instance=router_page)
         if form.is_valid():
             return save(request, form)
     else:
-        form = RouterPageForm(instance=routerpage)
-    template_data = {'page_title': routerpage.relative_url,
+        form = RouterPageForm(instance=router_page)
+    template_data = {'page_title': router_page.relative_url,
                      'form': form}
     return render(request, 'shared/formpage.html', template_data)
 
@@ -121,7 +121,8 @@ def build_page_from_identifier(request, router_id, identifier):
             attr.save()
 
     for src in identifier.images():
-        attr = RouterPageAttribute(router_page=page, type='image', name='image')
+        attr = RouterPageAttribute(
+            router_page=page, type='image', name='image')
         attr.value = src
         attr.save()
 
@@ -135,4 +136,13 @@ def build_page_from_identifier(request, router_id, identifier):
 
 
 def delete(request, pk):
-    return HttpResponse("Coming soon.")
+    if request.method == 'POST':
+        router_page = RouterPage.objects.get(pk=pk)
+        router = router_page.router
+        router_page.delete()
+        return redirect('router_detail', pk=router.pk)
+    else:
+        router_page = RouterPage.objects.get(pk=pk)
+        template_data = {'page_title': 'Delete Router Page',
+                         'object_name': router_page.relative_url }
+        return render(request, 'shared/delete.html', template_data)

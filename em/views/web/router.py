@@ -1,7 +1,7 @@
 from collections import namedtuple
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.decorators.http import require_GET
 from em.libs.form_handler import FormHandler
 from em.models import Router
@@ -92,4 +92,12 @@ def edit(request, pk):
 
 
 def delete(request, pk):
-    return HttpResponse("Coming soon.")
+    if request.method == 'POST':
+        router = Router.objects.get(pk=pk)
+        router.delete()
+        return redirect('router_index')
+    else:
+        router = Router.objects.get(pk=pk)
+        template_data = {'page_title': 'Delete Router',
+                         'object_name': str(router) }
+        return render(request, 'shared/delete.html', template_data)
