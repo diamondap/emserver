@@ -73,8 +73,8 @@ def create(request):
             return save(request, form)
     else:
         form = RouterForm()
-        template_data = {'page_title': 'New Router',
-                         'form': form}
+    template_data = {'page_title': 'New Router',
+                     'form': form}
     return render(request, 'shared/formpage.html', template_data)
 
 
