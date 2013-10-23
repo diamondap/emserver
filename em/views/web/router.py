@@ -40,7 +40,7 @@ def index(request):
                   {'page_title': 'Routers',
                    'table_summary': 'List of Routers',
                    'object_type': 'router',
-                   'tuples': filtered_routers,
+                   'data_list': filtered_routers,
                    'filter_form': router_filter.form })
 
 @require_GET

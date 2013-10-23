@@ -4,7 +4,7 @@
 {% load crispy_forms_tags %}
 
 {% block table %}
-{% auto_sort tuples %}
+{% auto_sort data_list %}
 {% if filter_form != None %}
   <div class="filter-form-container">
     <form class="filter-form" action="" method="get">
@@ -45,12 +45,12 @@
         </tr>
       </thead>
       <tbody>
-        {% for tuple in tuples %}
-        <tr onclick="location='/webadmin/{{ object_type }}/{{tuple.0}}/'"
+        {% for item in data_list %}
+        <tr onclick="location='/webadmin/{{ object_type }}/{{item.0}}/'"
             class="clickable">
-          {% for item in tuple %}
+          {% for value in item %}
           {% if forloop.counter0 != 0 %}
-          <td>{{ item }}</td>
+          <td>{{ value }}</td>
           {% endif %}
           {% endfor %}
         </tr>
