@@ -15,11 +15,17 @@ def detail(request, pk):
     """
     Returns information about a single router.
     """
+    form_field_types = ['text', 'textarea', 'radio', 'checkbox',
+                        'password', 'file', 'image', 'hidden',
+                        'button', 'submit']
     router_page = RouterPage.objects.prefetch_related('router').get(pk=pk)
     headers = router_page.attributes.filter(type='header').order_by('name')
     form_attrs = router_page.attributes.filter(type='form').order_by('name')
     images = router_page.attributes.filter(type='image').order_by('value')
     links = router_page.attributes.filter(type='link').order_by('value')
+    scripts = router_page.attributes.filter(type='script').order_by('value')
+    form_fields = router_page.attributes.filter(
+        type__in=form_field_types).order_by('value')
     try:
         router_page_title = router_page.get_title().value
     except ObjectDoesNotExist:
@@ -32,6 +38,8 @@ def detail(request, pk):
                    'form_attrs': form_attrs,
                    'images': images,
                    'links': links,
+                   'scripts': scripts,
+                   'form_fields': form_fields,
                    'router_page_title': router_page_title })
 
 def save(request, form):
@@ -113,7 +121,13 @@ def build_page_from_identifier(request, router_id, identifier):
         attr.value = link['href']
         attr.save()
 
-    for form_attr in identifier.forms():
+    for script in identifier.scripts():
+        attr = RouterPageAttribute(
+            router_page=page, type='script', name='script')
+        attr.value = script
+        attr.save()
+
+    for form_attr in identifier.form_attrs():
         for key in form_attr.keys():
             attr = RouterPageAttribute(router_page=page, type='form')
             attr.name = key
@@ -122,7 +136,7 @@ def build_page_from_identifier(request, router_id, identifier):
 
     for src in identifier.images():
         attr = RouterPageAttribute(
-            router_page=page, type='image', name='image')
+            router_page=page, type='image_src', name='image_src')
         attr.value = src
         attr.save()
 
@@ -130,6 +144,14 @@ def build_page_from_identifier(request, router_id, identifier):
         attr = RouterPageAttribute(router_page=page, type='header')
         attr.name = key
         attr.value = identifier.headers[key]
+        attr.save()
+
+    for element in identifier.form_elements():
+        attr = RouterPageAttribute(router_page=page)
+        attr.type = element['type']
+        attr.name = element['name']
+        if element['value'] is not None:
+            attr.value = element['value'][0:250]
         attr.save()
 
     return page

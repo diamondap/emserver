@@ -37,12 +37,12 @@ class IdentifierTest(unittest.TestCase):
         links = ['advance.asp', 'advance.asp', 'advance.asp']
         self.assertEqual(links, id_obj.links())
 
-    def test_forms(self):
+    def test_form_attrs(self):
         id_obj = self.get_id_instance()
         form = [{'name': 'basicset',
                  'method': 'post',
                  'action': '/goform/WizardHandle'}]
-        self.assertEqual(form, id_obj.forms())
+        self.assertEqual(form, id_obj.form_attrs())
 
     def test_images(self):
         id_obj = self.get_id_instance()

@@ -76,7 +76,7 @@ class Identifier:
             links.append({'href': link.get('href'), 'text': link.text})
         return links
 
-    def forms(self):
+    def form_attrs(self):
         """
         Returns a list of dictionaries, each of which contains the attributes
         of a single form on the page. Attributes typically include name,
@@ -86,6 +86,65 @@ class Identifier:
         for form in self.doc.find_all('form'):
             forms.append(form.attrs)
         return forms
+
+    def form_elements(self):
+        """
+        Returns a list of dictionaries, each of which contains the name and
+        value of a form element on the page.
+        """
+        unnamed_count = 0
+        elements = []
+        input_types = ["text", "radio", "checkbox", "password",
+                       "file", "image", "hidden", "button", "submit"]
+        for element in self.doc.find_all('input', {'type': input_types}):
+            name = element.get('name')
+            if not name:
+                unnamed_count += 1
+                name = "[No Name {0}]".format(unnamed_count)
+            elements.append({'name': name,
+                             'type': element.get('type'),
+                             'value': element.get('value')})
+        for element in self.doc.find_all('select'):
+            selected = element.find_all('option', selected=True)
+            values = [e.get('value') for e in selected]
+            value = ''
+            if len(values) == 1:
+                value = values[0]
+            elif len(values) > 1:
+                value = '|'.join(values)
+            name = element.get('name')
+            if not name:
+                unnamed_count += 1
+                name = "[No Name {0}]".format(unnamed_count)
+            elements.append({'name': name,
+                             'type': 'select',
+                             'value': value})
+        for element in self.doc.find_all('textarea'):
+            name = element.get('name')
+            if not name:
+                unnamed_count += 1
+                name = "[No Name {0}]".format(unnamed_count)
+            elements.append({'name': name,
+                             'type': 'textarea',
+                             'value': element.text})
+        return elements
+
+
+    def scripts(self):
+        """
+        Returns a list of strings, each of which is the src attribute of a
+        script on the page.
+        """
+        inline_count = 0
+        scripts = []
+        for script in self.doc.find_all('script'):
+            src = script.get('src')
+            if not src:
+                inline_count += 1
+                src = "[Inline {0}]".format(inline_count)
+            scripts.append(src)
+        return scripts
+
 
     def images(self):
         """

@@ -90,13 +90,24 @@ class RouterPageAttribute(models.Model):
     ATTR_TYPES = (
         ('header', 'HTTP Header'),
         ('title', 'Page Title'),
-        ('image', 'Image URL'),
+        ('image_src', 'Image URL'),
         ('link', 'Link URL'),
-        ('form', 'HTML Form Attribute'),)
+        ('form_attr', 'HTML Form Attribute'),
+        ('text', 'HTML Text Input'),
+        ('textarea', 'HTML TextArea'),
+        ('radio', 'HTML Radio Input'),
+        ('checkbox', 'HTML Checkbox Input'),
+        ('password', 'HTML Password Input'),
+        ('file', 'HTML File Input'),
+        ('image', 'HTML Image Input'),
+        ('hidden', 'HTML Hidden Input'),
+        ('button', 'HTML Button Input'),
+        ('submit', 'HTML Submit Input'),
+        ('script', 'JavaScript File'),)
     router_page = models.ForeignKey(RouterPage, related_name='attributes')
     type = models.CharField(max_length=40, choices=ATTR_TYPES)
     name = models.CharField(max_length=100)
-    value = models.CharField(max_length=250)
+    value = models.CharField(max_length=250, null=True, blank=True)
 
     def __str__(self):
         return "[{0}] [{1}] -> {2}".format(self.type, self.name, self.value)

@@ -53,8 +53,8 @@
   <div class="col-lg-6">
     <div class="panel panel-primary">
       <div class="panel-heading">
-        <h3 class="panel-title">Form Attributes</h3>
-        <a class="pull-right glyphicon glyphicon-pencil clickable-glyph" href="{% url 'routerpage_attribute_edit' rpid=router_page.pk attr_type='form' %}"></a>
+        <h3 class="panel-title">Links</h3>
+        <a class="pull-right glyphicon glyphicon-pencil clickable-glyph" href="{% url 'routerpage_attribute_edit' rpid=router_page.pk attr_type='link' %}"></a>
       </div>
       <div class="panel-body auto-scroll">
         <table class="table table-striped table-bordered table-hover">
@@ -65,10 +65,10 @@
             </tr>
           </thead>
           <tbody>
-            {% for attr in form_attrs.all %}
+            {% for link in links.all %}
             <tr>
-              <td>{{ attr.name }}</td>
-              <td>{{ attr.value }}</td>
+              <td>{{ link.name }}</td>
+              <td>{{ link.value }}</td>
             </tr>
             {% endfor %}
           </tbody>
@@ -80,7 +80,6 @@
 
 
 <div class="row">
-
   <div class="col-lg-6">
     <div class="panel panel-primary">
       <div class="panel-heading">
@@ -110,8 +109,8 @@
   <div class="col-lg-6">
     <div class="panel panel-primary">
       <div class="panel-heading">
-        <h3 class="panel-title">Links</h3>
-        <a class="pull-right glyphicon glyphicon-pencil clickable-glyph" href="{% url 'routerpage_attribute_edit' rpid=router_page.pk attr_type='link' %}"></a>
+        <h3 class="panel-title">Form Attributes</h3>
+        <a class="pull-right glyphicon glyphicon-pencil clickable-glyph" href="{% url 'routerpage_attribute_edit' rpid=router_page.pk attr_type='form' %}"></a>
       </div>
       <div class="panel-body auto-scroll">
         <table class="table table-striped table-bordered table-hover">
@@ -122,10 +121,68 @@
             </tr>
           </thead>
           <tbody>
-            {% for link in links.all %}
+            {% for attr in form_attrs.all %}
             <tr>
-              <td>{{ link.name }}</td>
-              <td>{{ link.value }}</td>
+              <td>{{ attr.name }}</td>
+              <td>{{ attr.value }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="row">
+  <div class="col-lg-6">
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <h3 class="panel-title">Scripts</h3>
+        <a class="pull-right glyphicon glyphicon-pencil clickable-glyph" href="{% url 'routerpage_attribute_edit' rpid=router_page.pk attr_type='image' %}"></a>
+      </div>
+      <div class="panel-body auto-scroll">
+        <table class="table table-striped table-bordered table-hover">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Value</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for i in scripts.all %}
+            <tr>
+              <td>{{ i.name }}</td>
+              <td>{{ i.value }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-6">
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <h3 class="panel-title">Form Fields</h3>
+        <a class="pull-right glyphicon glyphicon-pencil clickable-glyph" href="{% url 'routerpage_attribute_edit' rpid=router_page.pk attr_type='form' %}"></a>
+      </div>
+      <div class="panel-body auto-scroll">
+        <table class="table table-striped table-bordered table-hover">
+          <thead>
+            <tr>
+              <th>Type</th>
+              <th>Name</th>
+              <th>Value</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for field in form_fields.all %}
+            <tr>
+              <td>{{ field.type }}</td>
+              <td>{{ field.name }}</td>
+              <td>{{ field.value }}</td>
             </tr>
             {% endfor %}
           </tbody>
