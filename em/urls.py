@@ -15,6 +15,9 @@ web_urlpatterns = patterns(
 
     # Administrative pages
 
+    # Test Page
+    url(r'^webadmin/testpage/$', web.testpage.index, name='testpage'),
+
     # Router
     url(r'^webadmin/router/$', web.router.index, name='router_index'),
     url(r'^webadmin/router/create/$', web.router.create, name='router_create'),

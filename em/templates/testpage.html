@@ -1,0 +1,19 @@
+{% extends "shared/layout.html" %}
+
+{% block content %}
+<h1>Test Page</h1>
+<p>This is a test page. There's not much to see here.</p>
+<p>Here are a couple of links.</p>
+<ul>
+  <li><a href="http://www.rivannasoftware.com">Rivanna Software</a></li>
+  <li><a href="http://www.sheprador.com">Sheprador</a></li>
+</ul>
+<p>Here is an image.</p>
+<img src="{{ STATIC_URL }}/img/evil_mommy.png" width="600" height="386"/>
+<p>Here is a form.</p>
+<form method="post" action="/page/does/not/exist.html">
+  <input type="hidden" name="hiddenInput" value="123"/><br/>
+  <input type="text" name="textInput" value="Hello"/><br/>
+  <input type="submit" name="submitInput" value="Submit"/>
+</form>
+{% endblock %}
