@@ -29,10 +29,8 @@ def edit(request, rpid, attr_type):
         for form in formset:
             form.instance.router_page = routerpage
             form.instance.type = attr_type
-            print(form.instance)
         if formset.is_valid():
             attrs = formset.save()
-            print(attrs)
             return redirect(rpid)
     else:
         if attr_type == 'form_field':
