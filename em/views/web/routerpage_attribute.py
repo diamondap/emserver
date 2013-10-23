@@ -16,8 +16,12 @@ def redirect(rpid):
 
 def edit(request, rpid, attr_type):
     routerpage = RouterPage.objects.get(pk=rpid)
+    if attr_type == 'form_field':
+        form_fields = ('type', 'name', 'value')
+    else:
+        form_fields = ('name', 'value')
     AttrFormSet = modelformset_factory(RouterPageAttribute,
-                                       fields=('name', 'value'),
+                                       fields=form_fields,
                                        can_delete=True,
                                        extra=4)
     if request.method == 'POST':
