@@ -10,6 +10,10 @@ sys.path.append(code_dir)
 SU_LOGIN = 'admin'
 SU_PASSWORD = 'admin'
 
+# These are the database fixtures.
+#DB_FIXTURES = ["{0}/initial_data.json".format(fixture_dir)]
+DB_FIXTURES = ["initial_data.json"]
+
 def load_fixture(filename):
     """
     Returns the entire contents of a fixture file. The filename must be

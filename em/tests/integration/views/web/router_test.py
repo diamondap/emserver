@@ -3,6 +3,8 @@ import em.tests as tests
 
 class RouterTest(unittest.TestCase):
 
+    fixtures = tests.DB_FIXTURES
+
     def test_index(self):
         pass
 

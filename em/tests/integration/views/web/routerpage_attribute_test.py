@@ -3,6 +3,8 @@ import em.tests as tests
 
 class RouterPageAttributeTest(unittest.TestCase):
 
+    fixtures = tests.DB_FIXTURES
+
     def test_index(self):
         pass
 

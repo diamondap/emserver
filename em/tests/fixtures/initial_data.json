@@ -1,0 +1,362 @@
+[
+{
+    "model": "auth.user",
+    "fields": {
+        "email": "diamond@sheprador.com",
+        "last_name": "",
+        "first_name": "",
+        "password": "pbkdf2_sha256$10000$PAUf2yxos3pX$6tjydWbPBrZ3UKOZXOkK4/t2g7v/oRl1xfrgZrZE3Jk=",
+        "is_staff": true,
+        "last_login": "2013-10-23T14:13:37.776Z",
+        "groups": [],
+        "username": "admin",
+        "is_superuser": true,
+        "user_permissions": [],
+        "date_joined": "2013-10-23T14:13:20.912Z",
+        "is_active": true
+    },
+    "pk": 1
+},
+{
+    "model": "em.router",
+    "fields": {
+        "model": "MWN-WAPR300N",
+        "protocol": "http",
+        "created": "2013-10-23T14:14:36.145Z",
+        "firmware_version": "2.0.27 (Not Really)",
+        "modified": "2013-10-23T17:59:24.641Z",
+        "firmware_major": 2,
+        "port": 80,
+        "firmware_point": 27,
+        "firmware_minor": 0,
+        "firmware_date": "2013-01-11",
+        "manufacturer": "MediaLink",
+        "auth_protocol": "html",
+        "comments": "Decent router. Has some problems with video. Returns password in the body of the login form. Not very secure."
+    },
+    "pk": 1
+},
+{
+    "model": "em.routerfeature",
+    "fields": {
+        "feature_name": "http",
+        "router": [
+            1
+        ]
+    },
+    "pk": 1
+},
+{
+    "model": "em.routerfeature",
+    "fields": {
+        "feature_name": "https",
+        "router": []
+    },
+    "pk": 2
+},
+{
+    "model": "em.routerfeature",
+    "fields": {
+        "feature_name": "whitelist",
+        "router": [
+            1
+        ]
+    },
+    "pk": 3
+},
+{
+    "model": "em.routerfeature",
+    "fields": {
+        "feature_name": "blacklist",
+        "router": [
+            1
+        ]
+    },
+    "pk": 4
+},
+{
+    "model": "em.routerfeature",
+    "fields": {
+        "feature_name": "mac_time_block",
+        "router": []
+    },
+    "pk": 5
+},
+{
+    "model": "em.routerfeature",
+    "fields": {
+        "feature_name": "password_in_body",
+        "router": [
+            1
+        ]
+    },
+    "pk": 6
+},
+{
+    "model": "em.routerfeature",
+    "fields": {
+        "feature_name": "password_in_header",
+        "router": []
+    },
+    "pk": 7
+},
+{
+    "model": "em.routerfeature",
+    "fields": {
+        "feature_name": "alt_mgmt_port",
+        "router": []
+    },
+    "pk": 8
+},
+{
+    "model": "em.routerfeature",
+    "fields": {
+        "feature_name": "remote_mgmt",
+        "router": [
+            1
+        ]
+    },
+    "pk": 9
+},
+{
+    "model": "em.routerpage",
+    "fields": {
+        "relative_url": "/",
+        "description": "Root Page",
+        "body": "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\r\n<HTML xmlns=\"http://www.w3.org/1999/xhtml\">\r\n<head>\r\n<META http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\">\r\n<title>Medialink MWN-WAPR300N</title>\r\n<script type=\"text/javascript\" src=\"lang/b28n.js\"></script>\r\n<SCRIPT language=JavaScript src=\"gozila.js\"></SCRIPT>\r\n<SCRIPT language=JavaScript src=\"menu.js\"></SCRIPT>\r\n<SCRIPT language=JavaScript src=\"table.js\"></SCRIPT>\r\n<SCRIPT language=JavaScript>\r\nvar error=new Array(_(\"No Ethernet cable connected to WAN port!\"),_(\"No Internet access, please check your online settings!\"));\r\nmessage=\"1\";\r\nmessage2=\"0\";\r\naddCfg(\"Username\",39,\"\");\r\naddCfg(\"Password\",40,\"FledNanders\");\r\n\r\nvar username1=\"\";\r\nvar password1=\"FledNanders\";\r\n\r\nButterlate.setTextDomain(\"index_routing_virtual\");\r\nfunction initTranslate(){\r\n\tvar e=document.getElementById(\"sure\");\r\n\te.value=_(\"Apply\");\r\n\tvar e1=document.getElementById(\"cancel\");\r\n\te1.value=_(\"Cancel\");\r\n}\r\nfunction init(){\r\n\tinitTranslate();\r\n\tLogin.Username.value=\"\";\r\n\tLogin.Password.value=\"\";\r\n//\tLogin.Password.focus();\r\n    Login.Username.focus();\r\n\tif(message==0)\r\n\t{\r\n\t document.getElementById(\"message\").innerHTML=_(\"No Ethernet cable connected to WAN port!\");\r\n\t}\r\n\telse if(message==2 || message==3)\r\n\t{\r\n\t document.getElementById(\"message\").innerHTML=_(\"No Internet access, please check your online settings!\");\r\n\t}\r\n\telse\r\n\t{\r\n\t document.getElementById(\"message\").innerHTML=\"&nbsp;\";\r\n\t}\r\n\tif(message2 == 0)\r\n\t{\r\n\t\tshow_hide(\"login_tip\",0);\t\t\r\n\t}\r\n}\r\n\r\nfunction enterDown(f,e)\r\n{\r\n\tvar char_code = e.charCode ? e.charCode :e.keyCode;\r\n\tif(char_code == 13)\r\n\t{\r\n\t\tif(!preSubmit(f))\r\n\t\t\treturn;\r\n\t}else{\r\n\t\treturn;\r\n\t}\r\n}\r\n\r\nfunction preSubmit(f)\r\n{\t\r\n    if(f.nocheck.checked)\r\n\t{\r\n\t \tf.checkEn.value=1;\r\n\t}\r\n\telse\r\n\t{\r\n\t \tf.checkEn.value=0;\r\n\t}\r\n\t\r\n\tif(f.Username.value!=username1)\r\n\t{\r\n\talert(_(\"Please enter the correct Username.\"));\r\n\tf.Username.value=\"\";\r\n\t f.Username.focus();\r\n\treturn false;\r\n\t}\r\n\tif(f.Password.value!=password1)\r\n\t{\r\n\talert(_(\"Please enter the correct Password.\"));\r\n\tf.Password.value=\"\";\r\n\tf.Password.focus();\r\n\treturn false;\r\n\t}\r\n\tif(f.Password.value.length>12)\r\n\t{\r\n\t    alert(_(\"Password must be smaller than 13 characters.\"));\r\n\t\tf.Password.value=\"\"; \r\n\t\tf.Password.focus();\r\n\t\treturn false;\r\n\t}\r\n\tf.submit();\r\n}\r\n</script>\r\n<link rel=stylesheet type=text/css href=style.css>\r\n<style type=\"text/css\">\r\n.login{COLOR: #000000; FONT-FAMILY:\"Arial\"; font-size:12px; border:solid 1px #0B4F72; line-height:30px; margin-top:100px;}\r\n.STYLE1 {\r\n\tcolor:#000000;\r\n}\r\n</style>\r\n</head>\r\n<body onLoad=\"init()\">\r\n<form name=\"Login\" method=\"post\" action=\"/LoginCheck\">\r\n<!--<input type=hidden name=Username value=\"\">-->\r\n<input type=\"hidden\" name=\"checkEn\" value=\"0\">\r\n<table width=\"420\" border=\"0\" align=\"center\" cellpadding=\"0\" cellspacing=\"0\" class=\"login\">\r\n\t<tr><td style=\"background-color:#0B4F72; color:#FFFFFF; height:35px;\" colspan=\"2\"><font size=\"+1\" style=\"font-weight:bold\"> &nbsp;&nbsp;<script>document.write(_(\"Login\"));</script></font></td></tr>\r\n  <tr>\r\n    <!--<td width=\"20\" align=\"right\"></td>-->\r\n    <td colspan=\"2\" align=\"center\"><span class=\"STYLE1\">\r\n      <div id=\"message\"></div>\r\n    </span></td>\r\n  </tr>\r\n  \r\n <tr>\r\n    <td width=\"120\" align=\"right\"><script>document.write(_(\"Username\"));</script>:</td>\r\n    <td align=\"left\">&nbsp;&nbsp;<input type=\"text\" name=\"Username\" maxlength=\"12\" style=\"width:130px;\" onKeyDown=\"enterDown(document.Login,event);\"/>\r\n    <span class=\"STYLE1\">(<script>document.write(_(\"Default Username\"));</script>:&nbsp;admin)</span></td>\r\n  </tr>\r\n  <tr>\r\n    <td width=\"120\" align=\"right\"><script>document.write(_(\"Password\"));</script>:</td>\r\n    <td align=\"left\">&nbsp;&nbsp;<input type=\"text\" name=\"Password\" maxlength=\"32\" style=\"width:130px;\" onKeyDown=\"enterDown(document.Login,event);\"/>\r\n    <span class=\"STYLE1\">(<script>document.write(_(\"Default Password\"));</script>:&nbsp;admin)</span></td>\r\n  </tr>\r\n  <tr id=\"login_tip\" >\r\n    <td >&nbsp;</td>\r\n    <td align=\"left\">&nbsp;&nbsp;<input type=\"checkbox\" name=\"nocheck\"/>\r\n    <script>document.write(_(\"No longer prompts \"));</script></td>\r\n  </tr>\r\n  <tr>\r\n    <td height=\"35\" colspan=\"2\" align=\"center\" valign=\"bottom\"><input type=\"button\" id=\"sure\" value=\"\" class=\"button1\"   onClick=\"preSubmit(document.Login)\">&nbsp;&nbsp;<input type=\"reset\" id=\"cancel\" value=\"\" class=\"button1\" ></td>\r\n  </tr>\r\n  <tr>\r\n    <td colspan=\"2\" align=\"center\">&nbsp;</td>\r\n  </tr>\r\n</table>\r\n</form>\r\n</body>\r\n</html>\r\n\r\n\r\n\r\n\r\n\r\n\r\n",
+        "router": 1,
+        "comments": "You'll see this page if you do not have a valid session. If you are logged in, you'll go to a page that shows the router's ssid and password."
+    },
+    "pk": 1
+},
+{
+    "model": "em.routerpageattribute",
+    "fields": {
+        "type": "title",
+        "router_page": 1,
+        "value": "Medialink MWN-WAPR300N",
+        "name": ""
+    },
+    "pk": 1
+},
+{
+    "model": "em.routerpageattribute",
+    "fields": {
+        "type": "script",
+        "router_page": 1,
+        "value": "lang/b28n.js",
+        "name": "script"
+    },
+    "pk": 2
+},
+{
+    "model": "em.routerpageattribute",
+    "fields": {
+        "type": "script",
+        "router_page": 1,
+        "value": "gozila.js",
+        "name": "script"
+    },
+    "pk": 3
+},
+{
+    "model": "em.routerpageattribute",
+    "fields": {
+        "type": "script",
+        "router_page": 1,
+        "value": "menu.js",
+        "name": "script"
+    },
+    "pk": 4
+},
+{
+    "model": "em.routerpageattribute",
+    "fields": {
+        "type": "script",
+        "router_page": 1,
+        "value": "table.js",
+        "name": "script"
+    },
+    "pk": 5
+},
+{
+    "model": "em.routerpageattribute",
+    "fields": {
+        "type": "script",
+        "router_page": 1,
+        "value": "[Inline 1]",
+        "name": "script"
+    },
+    "pk": 6
+},
+{
+    "model": "em.routerpageattribute",
+    "fields": {
+        "type": "script",
+        "router_page": 1,
+        "value": "[Inline Ninety-Nine]",
+        "name": "script"
+    },
+    "pk": 7
+},
+{
+    "model": "em.routerpageattribute",
+    "fields": {
+        "type": "script",
+        "router_page": 1,
+        "value": "new.js",
+        "name": "script"
+    },
+    "pk": 11
+},
+{
+    "model": "em.routerpageattribute",
+    "fields": {
+        "type": "script",
+        "router_page": 1,
+        "value": "[Inline 500]",
+        "name": "script"
+    },
+    "pk": 12
+},
+{
+    "model": "em.routerpageattribute",
+    "fields": {
+        "type": "form_attr",
+        "router_page": 1,
+        "value": "post",
+        "name": "method"
+    },
+    "pk": 13
+},
+{
+    "model": "em.routerpageattribute",
+    "fields": {
+        "type": "form_attr",
+        "router_page": 1,
+        "value": "Login",
+        "name": "name"
+    },
+    "pk": 14
+},
+{
+    "model": "em.routerpageattribute",
+    "fields": {
+        "type": "form_attr",
+        "router_page": 1,
+        "value": "/LoginCheck",
+        "name": "action"
+    },
+    "pk": 15
+},
+{
+    "model": "em.routerpageattribute",
+    "fields": {
+        "type": "header",
+        "router_page": 1,
+        "value": "Wed Oct 23 09:27:46 2013",
+        "name": "date"
+    },
+    "pk": 16
+},
+{
+    "model": "em.routerpageattribute",
+    "fields": {
+        "type": "header",
+        "router_page": 1,
+        "value": "GoAhead-Webs",
+        "name": "server"
+    },
+    "pk": 17
+},
+{
+    "model": "em.routerpageattribute",
+    "fields": {
+        "type": "header",
+        "router_page": 1,
+        "value": "no-cache",
+        "name": "pragma"
+    },
+    "pk": 18
+},
+{
+    "model": "em.routerpageattribute",
+    "fields": {
+        "type": "header",
+        "router_page": 1,
+        "value": "no-cache",
+        "name": "cache-control"
+    },
+    "pk": 19
+},
+{
+    "model": "em.routerpageattribute",
+    "fields": {
+        "type": "header",
+        "router_page": 1,
+        "value": "text/html",
+        "name": "content-type"
+    },
+    "pk": 20
+},
+{
+    "model": "em.routerpageattribute",
+    "fields": {
+        "type": "hidden",
+        "router_page": 1,
+        "value": "0",
+        "name": "checkEn"
+    },
+    "pk": 21
+},
+{
+    "model": "em.routerpageattribute",
+    "fields": {
+        "type": "text",
+        "router_page": 1,
+        "value": null,
+        "name": "Username"
+    },
+    "pk": 22
+},
+{
+    "model": "em.routerpageattribute",
+    "fields": {
+        "type": "text",
+        "router_page": 1,
+        "value": null,
+        "name": "Password"
+    },
+    "pk": 23
+},
+{
+    "model": "em.routerpageattribute",
+    "fields": {
+        "type": "checkbox",
+        "router_page": 1,
+        "value": null,
+        "name": "nocheck"
+    },
+    "pk": 24
+},
+{
+    "model": "em.routerpageattribute",
+    "fields": {
+        "type": "form_field",
+        "router_page": 1,
+        "value": "Dookie",
+        "name": "Filtert"
+    },
+    "pk": 26
+},
+{
+    "model": "em.routerpageattribute",
+    "fields": {
+        "type": "radio",
+        "router_page": 1,
+        "value": "Free Europe",
+        "name": "Radio"
+    },
+    "pk": 27
+}
+]
