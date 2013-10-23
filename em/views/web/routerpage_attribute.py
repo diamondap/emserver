@@ -31,8 +31,13 @@ def edit(request, rpid, attr_type):
             print(attrs)
             return redirect(rpid)
     else:
-        qs = RouterPageAttribute.objects.filter(
-            router_page=rpid, type=attr_type).order_by('name')
+        if attr_type == 'form_field':
+            qs = RouterPageAttribute.objects.filter(
+                router_page=rpid,
+                type__in=RouterPageAttribute.FORM_FIELD_TYPES).order_by('name')
+        else:
+            qs = RouterPageAttribute.objects.filter(
+                router_page=rpid, type=attr_type).order_by('name')
         formset = AttrFormSet(queryset=qs)
     title = '{0} {1} Attributes'.format(routerpage.relative_url, attr_type)
     template_data = {'page_title': title,

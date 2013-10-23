@@ -44,11 +44,16 @@ class RouterFeature(models.Model):
     Information about router features.
     """
     FEATURE_CHOICES = (
-        ('https', 'Supports HTTP management console'),
+        ('http', 'Supports HTTP management console'),
+        ('https', 'Supports HTTPS management console'),
         ('whitelist', 'Supports MAC address whitelist'),
         ('blacklist', 'Supports MAC address blacklist'),
+        ('mac_time_block', 'Supports MAC address blocking by day and time'),
         ('password_in_body', 'Router sends password in body of login page'),
-        ('alt_mgmt_port', 'Can run admin UI on non-standard HTTP port'))
+        ('password_in_header', 'Router sends password in login page headers'),
+        ('alt_mgmt_port', 'Can run admin UI on non-standard HTTP port'),
+        ('remote_mgmt', 'Supports remote management'),
+        )
     router = models.ManyToManyField(Router, related_name='features')
     feature_name = models.CharField(max_length=40, choices=FEATURE_CHOICES)
 
@@ -81,10 +86,10 @@ class RouterPage(models.Model):
         return self.attributes.filter(type='header').order_by('name')
 
     def get_form_attributes(self):
-        return self.attributes.filter(type='form').order_by('name')
+        return self.attributes.filter(type='form_attr').order_by('name')
 
     def get_images(self):
-        return self.attributes.filter(type='image').order_by('value')
+        return self.attributes.filter(type='image_src').order_by('value')
 
     def get_links(self):
         return self.attributes.filter(type='link').order_by('value')

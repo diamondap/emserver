@@ -5,6 +5,7 @@
 }
 #footer {
    text-align: center;
+   padding: 20px;
 }
 .filter-form-container {
    display: none;

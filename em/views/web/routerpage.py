@@ -114,7 +114,7 @@ def build_page_from_identifier(request, router_id, identifier):
 
     for form_attr in identifier.form_attrs():
         for key in form_attr.keys():
-            attr = RouterPageAttribute(router_page=page, type='form')
+            attr = RouterPageAttribute(router_page=page, type='form_attr')
             attr.name = key
             attr.value = form_attr[key]
             attr.save()
