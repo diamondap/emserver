@@ -11,10 +11,10 @@
 var error=new Array(_("No Ethernet cable connected to WAN port!"),_("No Internet access, please check your online settings!"));
 message="1";
 message2="0";
-addCfg("Username",39,"");
+addCfg("Username",39,"Homer");
 addCfg("Password",40,"FledNanders");
 
-var username1="";
+var username1="Homer";
 var password1="FledNanders";
 
 Butterlate.setTextDomain("index_routing_virtual");
