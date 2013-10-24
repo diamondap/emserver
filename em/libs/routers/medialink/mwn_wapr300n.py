@@ -1,5 +1,6 @@
 import re
 from em.libs import utils
+from em.libs.net_client import NetClient
 
 # Manager for MediaLink MWN_WAPR300N Router
 
@@ -16,16 +17,17 @@ class Manager:
                         {'method': 'get', 'url': '/updateIptAccount' },]
         }
 
-    # responses is a list of hashes
-    # each hash has url, method, params, status_code, headers, html
-
     def __init__(self):
         pass
 
     def get_login_credentials(self, responses):
         """
         This returns the login name and password from the HTML of the
-        login.asp page. Returns a tuple: (login, password).
+        login.asp page.
+
+        Param responses is a list of em.libs.HttpResponse objects.
+
+        Returns a tuple: (login, password).
         """
         html = responses[0].body
         login_re = re.compile(r'var username1="(.*)";')
@@ -40,7 +42,22 @@ class Manager:
 
     # Not part of BaseRouterManager interface
     def get_dhcp_clients(self, response):
-        pass
+        """
+        Returns the list of DHCP clients. The return value is a list of
+        dictionaries. Each dictionary has keys 'ip' (the device's IP address),
+        'mac' (the device's MAC address), and 'hostname' (which will often
+        be blank).
+        """
+        clients = []
+        client_re = re.compile(r'var dhcpList=new Array\((.*)\);')
+        client_str = utils.re_first_capture(client_re, response.body)
+        client_list = client_str.split(',')
+        for c in client_list:
+            c = c.replace("'", "")
+            data = c.split(";")
+            clients.append(
+                NetClient(hostname=data[0], ip=data[1], mac=data[2]))
+        return clients
 
     def get_clients_from_traffic_stats(self, response):
         """
@@ -49,14 +66,14 @@ class Manager:
         stats on clients that are not currently connected, and 2) it
         includes stats on clients that have static IP addresses.
 
-        The body this response in plain text, not HTML.
+        The body this response in plain text, not HTML. The return value is
+        a list of em.libs.NetClient objects.
         """
         clients = []
         text = response.body
         for line in text.split("\n"):
             line = line.strip()
-            if not line:
-                continue
             data = line.split(';')
-            clients.append({'ip': data[0], 'conn_type': data[7]})
+            if len(data) == 8:
+                clients.append(NetClient(ip=data[0], conn_type=data[7]))
         return clients

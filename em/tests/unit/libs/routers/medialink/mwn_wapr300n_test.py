@@ -25,7 +25,33 @@ class MwnWapr300NTest(TestCase):
         response = HttpResponse(body=self.load('updateIptAccount.txt'))
         clients = manager.get_clients_from_traffic_stats(response)
         self.assertEqual(18, len(clients))
-        self.assertEqual('192.168.1.102', clients[2]['ip'])
-        self.assertEqual('Wireless', clients[2]['conn_type'])
-        self.assertEqual('192.168.1.233', clients[17]['ip'])
-        self.assertEqual('Wired', clients[17]['conn_type'])
+        self.assertEqual('192.168.1.102', clients[2].ip)
+        self.assertEqual('Wireless', clients[2].conn_type)
+        self.assertEqual('192.168.1.233', clients[17].ip)
+        self.assertEqual('Wired', clients[17].conn_type)
+
+    def test_get_dhcp_clients(self):
+        manager = Manager()
+        response = HttpResponse(body=self.load('lan_dhcp_clients.asp'))
+        clients = manager.get_dhcp_clients(response)
+        self.assertEqual(5, len(clients))
+
+        self.assertEqual("", clients[0].hostname)
+        self.assertEqual("192.168.1.100", clients[0].ip)
+        self.assertEqual("28:EF:01:2B:89:A4", clients[0].mac)
+
+        self.assertEqual("Andrews-iPad", clients[1].hostname)
+        self.assertEqual("192.168.1.112", clients[1].ip)
+        self.assertEqual("1C:E6:2B:A7:8F:14", clients[1].mac)
+
+        self.assertEqual("android-951c82b7396fc6f7", clients[2].hostname)
+        self.assertEqual("192.168.1.110", clients[2].ip)
+        self.assertEqual("A0:F4:50:11:E1:74", clients[2].mac)
+
+        self.assertEqual("android_1aa0643d1595227c", clients[3].hostname)
+        self.assertEqual("192.168.1.101", clients[3].ip)
+        self.assertEqual("10:F9:6F:CD:97:0E", clients[3].mac)
+
+        self.assertEqual("Wii", clients[4].hostname)
+        self.assertEqual("192.168.1.103", clients[4].ip)
+        self.assertEqual("00:23:31:6B:A9:89", clients[4].mac)
