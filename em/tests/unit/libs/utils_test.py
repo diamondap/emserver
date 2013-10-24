@@ -25,3 +25,8 @@ class UtilsTest(TestCase):
         self.assertEqual("rst", utils.re_first_capture(regex, string1))
         self.assertEqual("rst", utils.re_first_capture(regex, string2))
         self.assertIsNone(utils.re_first_capture(regex, string3))
+
+    def test_random_string(self):
+        self.assertIsInstance(utils.random_string(), str)
+        self.assertEqual(10, len(utils.random_string()))
+        self.assertEqual(20, len(utils.random_string(20)))
