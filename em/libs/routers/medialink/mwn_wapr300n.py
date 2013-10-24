@@ -37,8 +37,24 @@ class Manager:
         return (login, password)
 
     def get_client_list(self, responses):
-        pass
+        dhcp_clients = None
+        traffic_clients = None
+        for response in responses:
+            if 'lan_dhcp_clients.asp' in response.url:
+                dhcp_clients = self.get_dhcp_clients(response)
+            elif 'updateIptAccount' in response.url:
+                traffic_clients = self.get_clients_from_traffic_stats(
+                    response)
+            else:
+                raise ValueError("Unknown URL: {0}".format(response.url))
+        assert(dhcp_clients is not None)
+        assert(traffic_clients is not None)
 
+        # When we merge NetClient lists, for any items in both lists,
+        # attributes from the second list overwrite attributes from
+        # the first list. Since the dhcp_clients list has more up-to-date
+        # info, we want attributes from that list to win.
+        return NetClient.merge_lists(traffic_clients, dhcp_clients)
 
     # Not part of BaseRouterManager interface
     def get_dhcp_clients(self, response):
@@ -75,5 +91,6 @@ class Manager:
             line = line.strip()
             data = line.split(';')
             if len(data) == 8:
-                clients.append(NetClient(ip=data[0], conn_type=data[7]))
+                clients.append(NetClient(ip=data[0],
+                                         conn_type=data[7].lower()))
         return clients

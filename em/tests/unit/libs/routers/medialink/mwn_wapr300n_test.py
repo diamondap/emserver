@@ -26,9 +26,9 @@ class MwnWapr300NTest(TestCase):
         clients = manager.get_clients_from_traffic_stats(response)
         self.assertEqual(18, len(clients))
         self.assertEqual('192.168.1.102', clients[2].ip)
-        self.assertEqual('Wireless', clients[2].conn_type)
+        self.assertEqual('wireless', clients[2].conn_type)
         self.assertEqual('192.168.1.233', clients[17].ip)
-        self.assertEqual('Wired', clients[17].conn_type)
+        self.assertEqual('wired', clients[17].conn_type)
 
     def test_get_dhcp_clients(self):
         manager = Manager()
@@ -55,3 +55,24 @@ class MwnWapr300NTest(TestCase):
         self.assertEqual("Wii", clients[4].hostname)
         self.assertEqual("192.168.1.103", clients[4].ip)
         self.assertEqual("00:23:31:6B:A9:89", clients[4].mac)
+
+    def test_get_client_list(self):
+        manager = Manager()
+        # get_client_list() needs to look at responses from two
+        # different URLs.
+        response1 = HttpResponse(body=self.load('lan_dhcp_clients.asp'),
+                                 url='/lan_dhcp_clients.asp')
+        response2 = HttpResponse(body=self.load('updateIptAccount.txt'),
+                                 url='/updateIptAccount')
+        clients = manager.get_client_list([response1, response2])
+        self.assertEqual(18, len(clients))
+
+        # 192.168.1.100 Wireless 28:EF:01:2B:89:A4
+        self.assertEqual('192.168.1.100', clients[0].ip)
+        self.assertEqual('wireless', clients[0].conn_type)
+        self.assertEqual('28:EF:01:2B:89:A4', clients[0].mac)
+
+        # 192.168.1.105 Wired None
+        self.assertEqual('192.168.1.105', clients[5].ip)
+        self.assertEqual('wired', clients[5].conn_type)
+        self.assertIsNone(clients[5].mac)

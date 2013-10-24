@@ -11,3 +11,6 @@ class HttpResponse:
         self.status_code = kwargs.get('status_code')
         self.headers = kwargs.get('headers')
         self.body = kwargs.get('body')
+
+    def __str__(self):
+        return "HttpResponse to {0} {1}".format(self.method, self.url)

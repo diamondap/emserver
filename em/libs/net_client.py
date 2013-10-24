@@ -14,6 +14,9 @@ class NetClient:
         self.is_blacklisted = kwargs.get('is_blacklisted')
         self.nickname = kwargs.get('nickname')
 
+    def __str__(self):
+        return "NetClient {0}".format(self.ip)
+
     def merge(self, other):
         """
         Merges all of the values from another NetClient object into this
@@ -22,9 +25,9 @@ class NetClient:
 
         Returns self.
         """
-        if self.mac != other.mac:
+        if self.ip != other.ip:
             raise ValueError('Cannot merge NetClient objects with '
-                             'different MAC addresses.')
+                             'different IP addresses.')
         for key in self.__dict__:
             val = getattr(self, key)
             other_val = getattr(other, key)
@@ -45,30 +48,33 @@ class NetClient:
         2. If a property is not None in both lists, the value of the property
         in list2 wins.
 
-        NetClient objects are considered unique by MAC address.
+        NetClient objects are considered unique by IP address. (Yes, IP, not
+        MAC, because we are comparing devices currently attached to the
+        network. The router will always give us the IP addresses, which are
+        unique at the moment, but it will not always give us the MAC address.)
 
-        You may run into problems if either list includes the same MAC address
+        You may run into problems if either list includes the same IP address
         more than once.
         """
-        macs = set()
+        ips = set()
         clients = []
         for client in list1:
-            list2_client = next((c for c in list2 if c.mac == client.mac), None)
+            list2_client = next((c for c in list2 if c.ip == client.ip), None)
             if list2_client is not None:
                 client = client.merge(list2_client)
-            if not client.mac in macs:
+            if not client.ip in ips:
                 clients.append(client)
-                macs.add(client.mac)
+                ips.add(client.ip)
             else:
-                raise ValueError("Mutilple entries in list1 have MAC "
-                                 "address {0}".format(client.mac))
+                raise ValueError("Mutilple entries in list1 have IP "
+                                 "address '{0}'".format(client.ip))
         for client in list2:
             seen = set()
-            if client.mac in seen:
-                raise ValueError("Mutilple entries in list2 have MAC "
-                                 "address {0}".format(client.mac))
-            if not client.mac in macs:
+            if client.ip in seen:
+                raise ValueError("Mutilple entries in list2 have IP "
+                                 "address '{0}'".format(client.ip))
+            if not client.ip in ips:
                 clients.append(client)
-                macs.add(client.mac)
-            seen.add(client.mac)
+                ips.add(client.ip)
+            seen.add(client.ip)
         return clients

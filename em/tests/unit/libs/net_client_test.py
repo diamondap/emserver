@@ -44,6 +44,7 @@ class NetClientTest(TestCase):
     def test_merge(self):
         client1 = self.get_pc_client()
         client2 = self.get_ios_client()
+        client2.ip = client1.ip  # must have same IP, or merge won't work
         client1.merge(client2)
         self.assertEqual(client1.mac, client2.mac)
         self.assertEqual(client1.ip, client2.ip)
@@ -55,7 +56,7 @@ class NetClientTest(TestCase):
         self.assertEqual(client1.nickname, client2.nickname)
 
         client3 = self.get_pc_client()
-        client3.mac = '3.3.3.3'
+        client3.ip = '3.3.3.3'
         with self.assertRaises(ValueError) as ex:
             client3.merge(client2)
 
@@ -65,11 +66,11 @@ class NetClientTest(TestCase):
         client2 = self.get_ios_client()
         client2.mac = '02:02:02:02:02:02'
         client11 = self.get_pc_client()
-        client11.mac = '01:01:01:01:01:01'
-        client11.ip = '11.11.11.11'
+        client11.mac = '11:11:11:11:11:11'
+        client11.ip = '1.1.1.1'
         client22 = self.get_ios_client()
-        client22.ip = '22.22.22.22'
-        client22.mac = '02:02:02:02:02:02'
+        client22.ip = '2.2.2.2'
+        client22.mac = '22:22:22:22:22:22'
         client3 = self.get_random_client()
         client3.mac = '03:03:03:03:03:03'
         client4 = self.get_random_client()
@@ -85,7 +86,7 @@ class NetClientTest(TestCase):
 
         # Make sure attributes from list2
         # overwrote attributes from list1.
-        client = next((c for c in merged if c.mac == '01:01:01:01:01:01'))
-        self.assertEqual('11.11.11.11', client.ip)
-        client = next((c for c in merged if c.mac == '02:02:02:02:02:02'))
-        self.assertEqual('22.22.22.22', client.ip)
+        client = next((c for c in merged if c.ip == '1.1.1.1'))
+        self.assertEqual('11:11:11:11:11:11', client.mac)
+        client = next((c for c in merged if c.ip == '2.2.2.2'))
+        self.assertEqual('22:22:22:22:22:22', client.mac)
