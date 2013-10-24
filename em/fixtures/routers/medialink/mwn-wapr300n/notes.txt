@@ -1,0 +1,447 @@
+--------------------------------------------------------------------------------
+** Blacklist/Whitelist State
+--------------------------------------------------------------------------------
+See the page firewall_mac.asp for info about who is on the 
+
+
+--------------------------------------------------------------------------------
+** Blacklist/Whitelist manipulation - firewall_mac.asp / SafeMacFilter
+This list specifies the days and times at which a client can/cannot connect to the router. The wireless_filter.asp / WlanMACFilter below specifies an absolute MAC filter.
+--------------------------------------------------------------------------------
+
+This is a request to add a MAC address to the black list. Note that it adds only the MAC address that was visible in the UI, even though there are other addresses on the list. Also note that check=deny. 
+
+Request URL:http://192.168.1.1/goform/SafeMacFilter?GO=firewall_mac.asp&check=deny&curNum=2&CL2=3A:DC:B1:09:21:4C,1-5,30600-74700,on,Sample
+Request Method:GET
+Status Code:302 Redirect
+Request Headersview source
+Accept:text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Accept-Encoding:gzip,deflate,sdch
+Accept-Language:en-US,en;q=0.8
+Connection:keep-alive
+Cookie:sWanMode=static; admin-auth=Basic%20YWRtaW46YmFsbGFyZDY2; skip-internet-restored-dialog=skip; ui-proxy-path=local; initial-tab=; current-applet=
+Host:192.168.1.1
+Referer:http://192.168.1.1/firewall_mac.asp
+User-Agent:Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1599.101 Safari/537.36
+Query String Parametersview sourceview URL encoded
+GO:firewall_mac.asp
+check:deny
+curNum:2
+CL2:3A:DC:B1:09:21:4C,1-5,30600-74700,on,Sample
+Response Headersview source
+Cache-Control:no-cache
+Content-Type:text/html
+Date:Thu Oct 24 09:13:54 2013
+Location:http://192.168.1.1/Open_set.asp
+Pragma:no-cache
+Server:GoAhead-Webs
+
+--------------------------------------------------------------------------------
+Here's another add-to-blacklist request.
+
+Request URL:http://192.168.1.1/goform/SafeMacFilter?GO=firewall_mac.asp&check=deny&curNum=1&CL1=00:15:AF:E6:6B:DA,0-6,0-0,on,Netbook
+Request Method:GET
+Status Code:302 Redirect
+Request Headersview source
+Accept:text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Accept-Encoding:gzip,deflate,sdch
+Accept-Language:en-US,en;q=0.8
+Connection:keep-alive
+Cookie:sWanMode=static; admin-auth=Basic%20YWRtaW46YmFsbGFyZDY2; skip-internet-restored-dialog=skip; ui-proxy-path=local; initial-tab=; current-applet=
+Host:192.168.1.1
+Referer:http://192.168.1.1/firewall_mac.asp
+User-Agent:Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1599.101 Safari/537.36
+Query String Parametersview sourceview URL encoded
+GO:firewall_mac.asp
+check:deny
+curNum:1
+CL1:00:15:AF:E6:6B:DA,0-6,0-0,on,Netbook
+Response Headersview source
+Cache-Control:no-cache
+Content-Type:text/html
+Date:Thu Oct 24 09:26:33 2013
+Location:http://192.168.1.1/Open_set.asp
+Pragma:no-cache
+Server:GoAhead-Webs
+
+--------------------------------------------------------------------------------
+Another add-to-blacklist request, from Sunday midnight to Saturday 11:55 pm.
+
+Request URL:http://192.168.1.1/goform/SafeMacFilter?GO=firewall_mac.asp&check=deny&curNum=3&CL3=3A:DC:B1:22:33:44,0-6,0-86100,on,Fake_Rule
+Request Method:GET
+Status Code:302 Redirect
+Request Headersview source
+Accept:text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Accept-Encoding:gzip,deflate,sdch
+Accept-Language:en-US,en;q=0.8
+Connection:keep-alive
+Cookie:sWanMode=static; admin-auth=Basic%20YWRtaW46YmFsbGFyZDY2; skip-internet-restored-dialog=skip; ui-proxy-path=local; initial-tab=; current-applet=
+Host:192.168.1.1
+Referer:http://192.168.1.1/firewall_mac.asp
+User-Agent:Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1599.101 Safari/537.36
+Query String Parametersview sourceview URL encoded
+GO:firewall_mac.asp
+check:deny
+curNum:3
+CL3:3A:DC:B1:22:33:44,0-6,0-86100,on,Fake_Rule
+Response Headersview source
+Cache-Control:no-cache
+Content-Type:text/html
+Date:Thu Oct 24 09:32:56 2013
+Location:http://192.168.1.1/Open_set.asp
+Pragma:no-cache
+Server:GoAhead-Webs
+
+--------------------------------------------------------------------------------
+This adds a MAC address to the whitelist.
+
+Request URL:http://192.168.1.1/goform/SafeMacFilter?GO=firewall_mac.asp&check=pass&curNum=2&CL2=3A:DC:B1:09:21:4C,1-5,30600-74700,on,Sample
+Request Method:GET
+Status Code:302 Redirect
+Request Headersview source
+Accept:text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Accept-Encoding:gzip,deflate,sdch
+Accept-Language:en-US,en;q=0.8
+Connection:keep-alive
+Cookie:sWanMode=static; admin-auth=Basic%20YWRtaW46YmFsbGFyZDY2; skip-internet-restored-dialog=skip; ui-proxy-path=local; initial-tab=; current-applet=
+Host:192.168.1.1
+Referer:http://192.168.1.1/firewall_mac.asp
+User-Agent:Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1599.101 Safari/537.36
+Query String Parametersview sourceview URL encoded
+GO:firewall_mac.asp
+check:pass
+curNum:2
+CL2:3A:DC:B1:09:21:4C,1-5,30600-74700,on,Sample
+Response Headersview source
+Cache-Control:no-cache
+Content-Type:text/html
+Date:Thu Oct 24 09:23:41 2013
+Location:http://192.168.1.1/Open_set.asp
+Pragma:no-cache
+Server:GoAhead-Webs
+
+--------------------------------------------------------------------------------
+
+This disables the MAC address filter.
+
+Request URL:http://192.168.1.1/goform/SafeMacFilter?GO=firewall_mac.asp&check=disable
+Request Method:GET
+Status Code:302 Redirect
+Request Headersview source
+Accept:text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Accept-Encoding:gzip,deflate,sdch
+Accept-Language:en-US,en;q=0.8
+Connection:keep-alive
+Cookie:sWanMode=static; admin-auth=Basic%20YWRtaW46YmFsbGFyZDY2; skip-internet-restored-dialog=skip; ui-proxy-path=local; initial-tab=; current-applet=
+Host:192.168.1.1
+Referer:http://192.168.1.1/firewall_mac.asp
+User-Agent:Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1599.101 Safari/537.36
+Query String Parametersview sourceview URL encoded
+GO:firewall_mac.asp
+check:disable
+Response Headersview source
+Cache-Control:no-cache
+Content-Type:text/html
+Date:Thu Oct 24 09:24:53 2013
+Location:http://192.168.1.1/Open_set.asp
+Pragma:no-cache
+Server:GoAhead-Webs
+
+--------------------------------------------------------------------------------
+
+This removes an address from the blacklist. It just changes the rule state from on to off.
+
+Request URL:http://192.168.1.1/goform/SafeMacFilter?GO=firewall_mac.asp&check=deny&curNum=3&CL3=3A:DC:B1:22:33:44,0-6,0-86100,off,Fake_Rule
+Request Method:GET
+Status Code:302 Redirect
+Request Headersview source
+Accept:text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Accept-Encoding:gzip,deflate,sdch
+Accept-Language:en-US,en;q=0.8
+Connection:keep-alive
+Cookie:sWanMode=static; admin-auth=Basic%20YWRtaW46YmFsbGFyZDY2; skip-internet-restored-dialog=skip; ui-proxy-path=local; initial-tab=; current-applet=
+Host:192.168.1.1
+Referer:http://192.168.1.1/firewall_mac.asp
+User-Agent:Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1599.101 Safari/537.36
+Query String Parametersview sourceview URL encoded
+GO:firewall_mac.asp
+check:deny
+curNum:3
+CL3:3A:DC:B1:22:33:44,0-6,0-86100,off,Fake_Rule
+Response Headersview source
+Cache-Control:no-cache
+Content-Type:text/html
+Date:Thu Oct 24 09:36:25 2013
+Location:http://192.168.1.1/Open_set.asp
+Pragma:no-cache
+Server:GoAhead-Webs
+
+
+--------------------------------------------------------------------------------
+** Blacklist/Whitelist manipulation - wireless_filter.asp / WlanMACFilter
+This appears to be an absolute filter, while the firewall_mac.asp / SafeMacFilter specifies the days and times at which a MAC can or cannot connect.
+Router does NOT need to be restarted for the new filter settings to apply.
+--------------------------------------------------------------------------------
+
+This adds a MAC address to a blacklist. FilterMode can be disable, allow or deny.
+
+Request URL:http://192.168.1.1/goform/WlanMacFilter
+Request Method:POST
+Status Code:302 Redirect
+Request Headersview source
+Accept:text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Accept-Encoding:gzip,deflate,sdch
+Accept-Language:en-US,en;q=0.8
+Connection:keep-alive
+Content-Length:114
+Content-Type:application/x-www-form-urlencoded
+Cookie:sWanMode=static; admin-auth=Basic%20YWRtaW46YmFsbGFyZDY2; skip-internet-restored-dialog=skip; ui-proxy-path=local; initial-tab=; current-applet=
+Host:192.168.1.1
+Origin:http://192.168.1.1
+Referer:http://192.168.1.1/wireless_filter.asp
+User-Agent:Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1599.101 Safari/537.36
+Form Dataview sourceview URL encoded
+GO:wireless_filter.asp
+maclist:00:15:af:e6:6b:da 00:15:af:e6:6b:99
+ssidIndex:0
+FilterMode:deny
+Response Headersview source
+Cache-Control:no-cache
+Content-Type:text/html
+Date:Thu Oct 24 09:50:52 2013
+Location:http://192.168.1.1/Open_set.asp
+Pragma:no-cache
+Server:GoAhead-Webs
+
+--------------------------------------------------------------------------------
+
+This removes the MAC address ending in 99 from the blacklist.
+
+Request URL:http://192.168.1.1/goform/WlanMacFilter
+Request Method:POST
+Status Code:302 Redirect
+Request Headersview source
+Accept:text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Accept-Encoding:gzip,deflate,sdch
+Accept-Language:en-US,en;q=0.8
+Connection:keep-alive
+Content-Length:86
+Content-Type:application/x-www-form-urlencoded
+Cookie:sWanMode=static; admin-auth=Basic%20YWRtaW46YmFsbGFyZDY2; skip-internet-restored-dialog=skip; ui-proxy-path=local; initial-tab=; current-applet=
+Host:192.168.1.1
+Origin:http://192.168.1.1
+Referer:http://192.168.1.1/wireless_filter.asp
+User-Agent:Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1599.101 Safari/537.36
+Form Dataview sourceview URL encoded
+GO:wireless_filter.asp
+maclist:00:15:af:e6:6b:da
+ssidIndex:0
+FilterMode:deny
+Response Headersview source
+Cache-Control:no-cache
+Content-Type:text/html
+Date:Thu Oct 24 09:55:12 2013
+Location:http://192.168.1.1/Open_set.asp
+Pragma:no-cache
+Server:GoAhead-Webs
+
+--------------------------------------------------------------------------------
+** List of clients 
+--------------------------------------------------------------------------------
+See lan_dhcp_clients.asp for clients with DHCP addresses.
+See wireless_state.asp for a list of connected MAC addresses.
+
+This request gets a list of DHCP clients on the LAN. It can be stale at times. SOME CLIENTS JUST DO NOT SHOW UP HERE. SEE TRAFFIC STATISTICS BELOW. See the file lan_dhcp_clients.asp for the output of this request.
+
+Request URL:http://192.168.1.1/lan_dhcp_clients.asp
+Request Method:GET
+Status Code:200 OK
+Request Headersview source
+Accept:text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Accept-Encoding:gzip,deflate,sdch
+Accept-Language:en-US,en;q=0.8
+Connection:keep-alive
+Cookie:sWanMode=static; admin-auth=Basic%20YWRtaW46YmFsbGFyZDY2; skip-internet-restored-dialog=skip; ui-proxy-path=local; initial-tab=; current-applet=
+Host:192.168.1.1
+Referer:http://192.168.1.1/advance.asp
+User-Agent:Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1599.101 Safari/537.36
+Response Headersview source
+Cache-Control:no-cache
+Content-type:text/html
+Date:Thu Oct 24 09:58:50 2013
+Pragma:no-cache
+Server:GoAhead-Webs
+
+
+--------------------------------------------------------------------------------
+** Traffic Statistics 
+--------------------------------------------------------------------------------
+
+This request turns on traffic statistics. When statistics are on, you get a more complete list of connected devices.
+
+Request URL:http://192.168.1.1/goform/iptAcount_mng
+Request Method:POST
+Status Code:302 Redirect
+Request Headersview source
+Accept:text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Accept-Encoding:gzip,deflate,sdch
+Accept-Language:en-US,en;q=0.8
+Connection:keep-alive
+Content-Length:61
+Content-Type:application/x-www-form-urlencoded
+Cookie:sWanMode=static; admin-auth=Basic%20YWRtaW46YmFsbGFyZDY2; skip-internet-restored-dialog=skip; ui-proxy-path=local; initial-tab=; current-applet=
+Host:192.168.1.1
+Origin:http://192.168.1.1
+Referer:http://192.168.1.1/sys_iptAccount.asp
+User-Agent:Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1599.101 Safari/537.36
+Form Dataview sourceview URL encoded
+GO:sys_iptAccount.asp
+enableiptAccount:1
+enableiptAccountEx:1
+Response Headersview source
+Cache-Control:no-cache
+Content-Type:text/html
+Date:Thu Oct 24 10:13:01 2013
+Location:http://192.168.1.1/Open_set.asp
+Pragma:no-cache
+Server:GoAhead-Webs
+
+--------------------------------------------------------------------------------
+
+After traffic statistics are enabled, you can get information about who is connected.
+
+This is a request for the traffic statistics page. This page includes more information about who is actually connected. See the page updateIptAccount. Note that this is plain text, not HTML.
+
+Request URL:http://192.168.1.1/goform/updateIptAccount
+Request Method:POST
+Status Code:200 OK
+Request Headersview source
+Accept:*/*
+Accept-Encoding:gzip,deflate,sdch
+Accept-Language:en-US,en;q=0.8
+Connection:keep-alive
+Content-Length:9
+Content-Type:text/plain;charset=UTF-8
+Cookie:sWanMode=static; admin-auth=Basic%20YWRtaW46YmFsbGFyZDY2; skip-internet-restored-dialog=skip; ui-proxy-path=local; initial-tab=; current-applet=
+Host:192.168.1.1
+Origin:http://192.168.1.1
+Referer:http://192.168.1.1/sys_iptAccount.asp
+User-Agent:Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1599.101 Safari/537.36
+Request Payload
+something
+Response Headersview source
+Content-type:text/plain
+Pragma:no-cache
+
+
+--------------------------------------------------------------------------------
+** System Status 
+--------------------------------------------------------------------------------
+
+This request gives system status info. See the file system_status.asp for the output. Note the clients variable in the JavaScript. This shows the number of connected clients.
+
+Request URL:http://192.168.1.1/system_status.asp
+Request Method:GET
+Status Code:200 OK
+Request Headersview source
+Accept:text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Accept-Encoding:gzip,deflate,sdch
+Accept-Language:en-US,en;q=0.8
+Connection:keep-alive
+Cookie:sWanMode=static; admin-auth=Basic%20YWRtaW46YmFsbGFyZDY2; skip-internet-restored-dialog=skip; ui-proxy-path=local; initial-tab=; current-applet=
+Host:192.168.1.1
+Referer:http://192.168.1.1/advance.asp
+User-Agent:Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1599.101 Safari/537.36
+Response Headersview source
+Cache-Control:no-cache
+Content-type:text/html
+Date:Thu Oct 24 10:16:18 2013
+Pragma:no-cache
+Server:GoAhead-Webs
+
+
+--------------------------------------------------------------------------------
+** Login - login.asp
+--------------------------------------------------------------------------------
+
+Request this login.asp to log in. See the file login.asp. Note that it contains the password in the page source. This router ignores the user name setting. All you need to log in is the password, and the router gives you that.
+
+Request URL:http://192.168.1.1/login.asp
+Request Method:GET
+Status Code:200 OK
+Request Headersview source
+Accept:text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Accept-Encoding:gzip,deflate,sdch
+Accept-Language:en-US,en;q=0.8
+Cache-Control:max-age=0
+Connection:keep-alive
+Cookie:language=en
+Host:192.168.1.1
+User-Agent:Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1599.101 Safari/537.36
+Response Headersview source
+Cache-Control:no-cache
+Content-type:text/html
+Date:Thu Oct 24 10:45:52 2013
+Pragma:no-cache
+Server:GoAhead-Webs
+
+--------------------------------------------------------------------------------
+** Login - Submitting credentials to LoginCheck
+--------------------------------------------------------------------------------
+
+Below is a POST to LoginCheck to log in. This redirects to index.asp
+
+Request URL:http://192.168.1.1/LoginCheck
+Request Method:POST
+Status Code:302 Redirect
+Request Headersview source
+Accept:text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Accept-Encoding:gzip,deflate,sdch
+Accept-Language:en-US,en;q=0.8
+Connection:keep-alive
+Content-Length:40
+Content-Type:application/x-www-form-urlencoded
+Cookie:language=en
+Host:192.168.1.1
+Origin:http://192.168.1.1
+Referer:http://192.168.1.1/login.asp
+User-Agent:Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1599.101 Safari/537.36
+Form Dataview sourceview URL encoded
+checkEn:0
+Username:
+Password:FledNanders
+Response Headersview source
+Cache-Control:no-cache
+Content-Type:text/html
+Date:Thu Oct 24 10:47:25 2013
+Location:index.asp
+Pragma:no-cache
+Server:GoAhead-Webs
+Set-Cookie::language=en; path=/
+
+
+--------------------------------------------------------------------------------
+** Landing Page - index.asp
+--------------------------------------------------------------------------------
+
+This is the page you see after logging in, or if you have a valid session cookie from a prior login. These cookies never seem to expire, and there is no way to log out of the router.
+
+Request URL:http://192.168.1.1/index.asp
+Request Method:GET
+Status Code:200 OK
+Request Headersview source
+Accept:text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Accept-Encoding:gzip,deflate,sdch
+Accept-Language:en-US,en;q=0.8
+Connection:keep-alive
+Cookie:language=en; :language=en
+Host:192.168.1.1
+Referer:http://192.168.1.1/login.asp
+User-Agent:Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1599.101 Safari/537.36
+Response Headersview source
+Cache-Control:no-cache
+Content-type:text/html
+Date:Thu Oct 24 10:47:25 2013
+Pragma:no-cache
+Server:GoAhead-Webs
+
