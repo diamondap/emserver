@@ -1,0 +1,13 @@
+class HttpResponse:
+    """
+    This class contains information about an HTTP response that our remote
+    client received and then passed back to the server.
+    """
+
+    def __init__(self, *args, **kwargs):
+        self.url = kwargs.get('url')
+        self.method = kwargs.get('method')
+        self.params = kwargs.get('params')
+        self.status_code = kwargs.get('status_code')
+        self.headers = kwargs.get('headers')
+        self.body = kwargs.get('body')
