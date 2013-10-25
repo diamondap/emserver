@@ -1,7 +1,7 @@
 --------------------------------------------------------------------------------
 ** Blacklist/Whitelist State
 --------------------------------------------------------------------------------
-See the page firewall_mac.asp for info about who is on the 
+See the page firewall_mac.asp for info about who is on the black/whitelist.
 
 
 --------------------------------------------------------------------------------
@@ -9,7 +9,7 @@ See the page firewall_mac.asp for info about who is on the
 This list specifies the days and times at which a client can/cannot connect to the router. The wireless_filter.asp / WlanMACFilter below specifies an absolute MAC filter.
 --------------------------------------------------------------------------------
 
-This is a request to add a MAC address to the black list. Note that it adds only the MAC address that was visible in the UI, even though there are other addresses on the list. Also note that check=deny. 
+This is a request to add a MAC address to the black list. Note that it adds only the MAC address that was visible in the UI, even though there are other addresses on the list. Also note that check=deny.
 
 Request URL:http://192.168.1.1/goform/SafeMacFilter?GO=firewall_mac.asp&check=deny&curNum=2&CL2=3A:DC:B1:09:21:4C,1-5,30600-74700,on,Sample
 Request Method:GET
@@ -246,7 +246,44 @@ Pragma:no-cache
 Server:GoAhead-Webs
 
 --------------------------------------------------------------------------------
-** List of clients 
+
+This adds several MACs to the blacklist:
+
+Request URL:http://192.168.1.1/goform/WlanMacFilter
+Request Method:POST
+Status Code:302 Redirect
+Request Headersview source
+Accept:text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Accept-Encoding:gzip,deflate,sdch
+Accept-Language:en-US,en;q=0.8
+Connection:keep-alive
+Content-Length:170
+Content-Type:application/x-www-form-urlencoded
+Cookie:sWanMode=static; admin-auth=Basic%20YWRtaW46YmFsbGFyZDY2; skip-internet-restored-dialog=skip; ui-proxy-path=local; initial-tab=; current-applet=
+Host:192.168.1.1
+Origin:http://192.168.1.1
+Referer:http://192.168.1.1/wireless_filter.asp
+User-Agent:Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1599.101 Safari/537.36
+Form Dataview sourceview URL encoded
+GO:wireless_filter.asp
+maclist:00:15:af:e6:6b:da 00:15:af:e6:6b:77 00:15:af:e6:6b:88 00:15:af:e6:6b:99
+ssidIndex:0
+FilterMode:deny
+Response Headersview source
+Cache-Control:no-cache
+Content-Type:text/html
+Date:Fri Oct 25 07:39:24 2013
+Location:http://192.168.1.1/Open_set.asp
+Pragma:no-cache
+Server:GoAhead-Webs
+
+--------------------------------------------------------------------------------
+
+This removes the last 3 MACs from the blacklist:
+
+
+--------------------------------------------------------------------------------
+** List of clients
 --------------------------------------------------------------------------------
 See lan_dhcp_clients.asp for clients with DHCP addresses.
 See wireless_state.asp for a list of connected MAC addresses.
@@ -274,7 +311,7 @@ Server:GoAhead-Webs
 
 
 --------------------------------------------------------------------------------
-** Traffic Statistics 
+** Traffic Statistics
 --------------------------------------------------------------------------------
 
 This request turns on traffic statistics. When statistics are on, you get a more complete list of connected devices.
@@ -335,7 +372,7 @@ Pragma:no-cache
 
 
 --------------------------------------------------------------------------------
-** System Status 
+** System Status
 --------------------------------------------------------------------------------
 
 This request gives system status info. See the file system_status.asp for the output. Note the clients variable in the JavaScript. This shows the number of connected clients.
@@ -444,4 +481,3 @@ Content-type:text/html
 Date:Thu Oct 24 10:47:25 2013
 Pragma:no-cache
 Server:GoAhead-Webs
-

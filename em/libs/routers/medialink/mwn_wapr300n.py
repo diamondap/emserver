@@ -14,8 +14,16 @@ class Manager:
     requests = {
         'Login Credentials': [{'method': 'get', 'url': '/login.asp' }],
         'Client List': [{'method': 'get', 'url': '/lan_dhcp_clients.asp' },
-                        {'method': 'get', 'url': '/updateIptAccount' },]
+                        {'method': 'get', 'url': '/updateIptAccount' },],
+        'Filter Type': [{'method': 'get', 'url': '/wireless_filter.asp'}],
+        'Filter List': [{'method': 'get', 'url': '/wireless_filter.asp'}],
         }
+
+
+    # Map this router's filter type names to our uniform filter type names.
+    FILTER_TYPE_MAP = {'allow': 'whitelist',
+                       'deny': 'blacklist',
+                       'disabled': 'disabled'}
 
     def __init__(self):
         pass
@@ -55,6 +63,33 @@ class Manager:
         # the first list. Since the dhcp_clients list has more up-to-date
         # info, we want attributes from that list to win.
         return NetClient.merge_lists(traffic_clients, dhcp_clients)
+
+    def get_filter_type(self, responses):
+        """
+        This returns the type of MAC filtering that is currently enabled.
+        The return value will be one of the following strings, or None if
+        we can't determine the filter type.
+        - whitelist
+        - blacklist
+        - disabled
+        """
+        if not responses:
+            raise ValueError('get_filter_type requires a response')
+        filter_re = re.compile(r'var filter_mode = "(\w+)";');
+        filter_type = utils.re_first_capture(filter_re, responses[0].body)
+        return Manager.FILTER_TYPE_MAP.get(filter_type)
+
+    def get_filter_list(self, responses):
+        """
+        This returns a list of strings. Each string is a MAC address on
+        the current black/white list.
+        """
+        if not responses:
+            raise ValueError('get_filter_list requires a response')
+        mac_list_re = re.compile(r'var res = "(.*)";');
+        mac_list_str = utils.re_first_capture(filter_re, responses[0].body)
+        return mac_list_str.split(' ')
+
 
     # Not part of BaseRouterManager interface
     def get_dhcp_clients(self, response):

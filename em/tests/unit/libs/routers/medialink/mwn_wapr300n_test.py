@@ -76,3 +76,9 @@ class MwnWapr300NTest(TestCase):
         self.assertEqual('192.168.1.105', clients[5].ip)
         self.assertEqual('wired', clients[5].conn_type)
         self.assertIsNone(clients[5].mac)
+
+    def test_get_filter_type(self):
+        manager = Manager()
+        response = HttpResponse(body=self.load('wireless_filter.asp'))
+        filter_type = manager.get_filter_type([response])
+        self.assertEqual('blacklist', filter_type)

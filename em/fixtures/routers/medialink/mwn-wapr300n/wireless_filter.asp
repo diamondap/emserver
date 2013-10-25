@@ -10,7 +10,7 @@
 <SCRIPT language=JavaScript src="table.js"></SCRIPT>
 <SCRIPT language=JavaScript>
 var filter_mode = "deny";	
-var res = "00:15:af:e6:6b:da";
+var res = "00:15:af:e6:6b:da 00:15:af:e6:6b:77 00:15:af:e6:6b:88 00:15:af:e6:6b:99";
 var enablewireless="1";
 var ssidlist = "piesafe";
 var Cur_ssid_index = "0";
