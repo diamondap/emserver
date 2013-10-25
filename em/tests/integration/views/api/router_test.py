@@ -21,3 +21,5 @@ class RouterTest(TestCase):
         router = identifier.identify()
         self.assertEqual("MediaLink", router.manufacturer)
         self.assertEqual("MWN-WAPR300N", router.model)
+        self.assertEqual("html", router.auth_protocol)
+        self.assertEqual(1, router.id)
