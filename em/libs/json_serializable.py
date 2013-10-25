@@ -1,5 +1,7 @@
 import json
 
+# Everything in here is tested in em/tests/unit/libs/http_test.py
+# since those classes actually implement these methods.
 class JsonSerializable:
     """
     This base class provides methods to serialize relatively
@@ -18,14 +20,22 @@ class JsonSerializable:
 
 
 def list_to_json(items):
+    """
+    Converts a list of JsonSerializable objects to JSON.
+    """
     dictionaries = []
-    for item in self.items:
+    for item in items:
         if not isinstance(item, JsonSerializable):
             raise ValueError('Items must of type JsonSerializable')
         dictionaries.append(item.__dict__)
     return json.dumps(dictionaries)
 
 def list_from_json(json_string, klass):
+    """
+    Converts a JSON string to a list of items of class klass.
+    This assumes you're working with very simple objects of
+    type JsonSerializable.
+    """
     object_list = []
     dictionaries = json.loads(json_string)
     for dictionary in dictionaries:
