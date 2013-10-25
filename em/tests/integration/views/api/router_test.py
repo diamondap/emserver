@@ -14,12 +14,6 @@ class RouterTest(TestCase):
         prefix = 'routers/medialink/mwn-wapr300n'
         return tests.load_fixture('{0}/{1}'.format(prefix, fixture))
 
-    def test_this(self):
-        from django import db
-        print(db.connection.settings_dict)
-        print(models.Router.objects.count())
-
-
     def test_identify(self):
         html = self.load('login.asp')
         identifier = Identifier(
