@@ -7,14 +7,15 @@ from em.libs.net_client import NetClient
 class Manager(BaseManager):
 
     def __init__(self):
+        BaseManager.__init__(self)
         self.description = 'ResponseManager for MediaLink MWN_WAPR300N Router'
         self.manufacturer = 'MediaLink'
         self.model = 'MWN-WAPR300N'
         self.firmware_version = 'V5.07.42_en_MDL01'
         self.hardware_version = 'V3.0'
         self.parser_type = 'regex'
-        self.response_manager = ResponseManager
-        self.request_manager = RequestManager
+        self.response_manager = ResponseManager()
+        self.request_manager = RequestManager()
         self.comment = """
         This router's HTML is unparsable because its data is in
         JavaScript variables and it uses document.write() everywhere.

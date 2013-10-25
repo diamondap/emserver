@@ -1,5 +1,15 @@
 class BaseManager:
-    pass
+
+    def __init__(self):
+        self.description = None
+        self.manufacturer = None
+        self.model = None
+        self.firmware_version = None
+        self.hardware_version = None
+        self.parser_type = None
+        self.response_manager = None
+        self.request_manager = None
+        self.comment = None
 
 class BaseResponseManager:
     """

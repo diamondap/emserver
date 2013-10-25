@@ -1,24 +1,16 @@
+from em.libs.base import BaseManager
+
 REGISTRY = set()
 
-def register(manager_summary):
-    if not isinstance(manager_summary, BaseManagerSummary):
-        raise TypeError('register requires an instance of BaseManagerSummary')
-    set.add(manager_summary)
+def get_manager(manufacturer, model, firmware_version=None):
+    managers = [mgr for mgr in REGISTRY if (
+        mgr.manufacturer == manufacturer and mgr.mode == model)]
+    if firmware_version is not None:
+        managers = [mgr for mgr in manager if (
+            mgr.firmware_version == firmware_version)]
+    return managers
 
-def get_manager_summary(manufacturer, model, **kwargs):
-    firmware_version = kwargs.get('firmware_version')
-    filtered_list = get_by_manufacturer(manufacturer)
-    filtered_list = get_by_model(model, summary_set=filtered_list)
-    if firmware_version:
-            filtered_list = get_by_firmware_version(
-                firmware_version, summary_set=filtered_list)
-    return filtered_list
-
-def get_by_manufacturer(manufacturer, summary_set=REGISTRY):
-    return [s for s in summary_set if s.manufacturer == manufacturer]
-
-def get_by_model(model, summary_set=REGISTRY):
-    return [s for s in summary_set if s.model == model]
-
-def get_by_firmware_version(model, summary_set=REGISTRY):
-    return [s for s in summary_set if s.firmware_version == firmware_version]
+def initialize_registry():
+    if len(REGISTRY) == 0:
+        for manager_class in BaseManager.__subclasses__():
+            REGISTRY.add(manager_class())
