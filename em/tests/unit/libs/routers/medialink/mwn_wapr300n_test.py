@@ -82,3 +82,11 @@ class MwnWapr300NTest(TestCase):
         response = HttpResponse(body=self.load('wireless_filter.asp'))
         filter_type = manager.get_filter_type([response])
         self.assertEqual('blacklist', filter_type)
+
+    def test_get_filter_list(self):
+        manager = Manager()
+        response = HttpResponse(body=self.load('wireless_filter.asp'))
+        filter_list = manager.get_filter_list([response])
+        expected = ['00:15:af:e6:6b:da', '00:15:af:e6:6b:77',
+                    '00:15:af:e6:6b:88', '00:15:af:e6:6b:99']
+        self.assertEqual(expected, filter_list)

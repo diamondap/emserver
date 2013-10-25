@@ -87,7 +87,7 @@ class Manager:
         if not responses:
             raise ValueError('get_filter_list requires a response')
         mac_list_re = re.compile(r'var res = "(.*)";');
-        mac_list_str = utils.re_first_capture(filter_re, responses[0].body)
+        mac_list_str = utils.re_first_capture(mac_list_re, responses[0].body)
         return mac_list_str.split(' ')
 
 
