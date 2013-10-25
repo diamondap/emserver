@@ -1,7 +1,7 @@
 import re
 from em.libs import utils
 from em.libs.base import BaseManager, BaseResponseManager, BaseRequestManager
-from em.libs.http_request import HttpRequest
+from em.libs.http import HttpRequest
 from em.libs.net_client import NetClient
 
 class Manager(BaseManager):

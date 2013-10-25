@@ -1,7 +1,7 @@
 from django.test import TestCase
 from em.tests import load_fixture
 from em.libs import utils
-from em.libs.http_response import HttpResponse
+from em.libs.http import HttpResponse
 from em.libs.routers.medialink.mwn_wapr300n import ResponseManager
 
 class MwnWapr300NTest(TestCase):
