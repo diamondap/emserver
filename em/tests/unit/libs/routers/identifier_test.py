@@ -82,3 +82,13 @@ class IdentifierTest(TestCase):
                    '[Inline 7]',
                    '[Inline 8]']
         self.assertEqual(scripts, id_obj.scripts())
+
+    def test_identify(self):
+        html = load_fixture('routers/medialink/mwn-wapr300n/login.asp')
+        identifier = Identifier(
+            html=html, url='login.asp', port=80, headers={})
+        router = identifier.identify()
+        self.assertEqual("MediaLink", router.manufacturer)
+        self.assertEqual("MWN-WAPR300N", router.model)
+        self.assertEqual("html", router.auth_protocol)
+        self.assertEqual(1, router.id)

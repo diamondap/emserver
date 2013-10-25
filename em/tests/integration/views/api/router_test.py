@@ -1,3 +1,4 @@
+import json
 from django.test import TestCase
 from django.core.urlresolvers import reverse
 from em import models, tests
@@ -16,10 +17,29 @@ class RouterTest(TestCase):
 
     def test_identify(self):
         html = self.load('login.asp')
-        identifier = Identifier(
-            html=html, url='login.asp', port=80, headers={})
-        router = identifier.identify()
-        self.assertEqual("MediaLink", router.manufacturer)
-        self.assertEqual("MWN-WAPR300N", router.model)
-        self.assertEqual("html", router.auth_protocol)
-        self.assertEqual(1, router.id)
+        data = {'html': html, 'port': 80, 'url': '/relative.html',
+                'headers': {'header1': 'value1', 'header2': 'value2'}}
+        client = tests.admin_client()
+        response = client.post(reverse('identify_router'), data)
+        self.assertEqual(200, response.status_code)
+
+        router = models.Router.objects.first()
+        data = json.loads(response.content.decode(encoding='UTF-8'))
+        self.assertEqual(router.manufacturer, data['manufacturer'])
+        self.assertEqual(router.model, data['model'])
+        self.assertEqual(router.firmware_version, data['firmware_version'])
+        self.assertEqual(router.auth_protocol, data['auth_protocol'])
+        self.assertEqual(router.id, data['id'])
+
+    def test_get_credentials_requests(self):
+        client = tests.admin_client()
+        data = {'router_id': tests.ROUTER_ID}
+        response = client.get(reverse('credentials_request', kwargs=data))
+        self.assertEqual(200, response.status_code)
+
+        data = json.loads(response.content.decode(encoding='UTF-8'))
+        self.assertEqual(1, len(data))
+        self.assertEqual('/login.asp', data[0]['url'])
+        self.assertEqual('get', data[0]['method'])
+        self.assertEqual({}, data[0]['headers'])
+        self.assertEqual({}, data[0]['data'])
