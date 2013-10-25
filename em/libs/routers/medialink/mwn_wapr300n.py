@@ -1,32 +1,35 @@
 import re
 from em.libs import utils
+from em.libs.base import BaseManager, BaseResponseManager, BaseRequestManager
+from em.libs.http_request import HttpRequest
 from em.libs.net_client import NetClient
 
-# Manager for MediaLink MWN_WAPR300N Router
+class Manager(BaseManager):
 
-class Manager:
+    def __init__(self):
+        self.description = 'ResponseManager for MediaLink MWN_WAPR300N Router'
+        self.manufacturer = 'MediaLink'
+        self.model = 'MWN-WAPR300N'
+        self.firmware_version = 'V5.07.42_en_MDL01'
+        self.hardware_version = 'V3.0'
+        self.parser_type = 'regex'
+        self.response_manager = ResponseManager
+        self.request_manager = RequestManager
+        self.comment = """
+        This router's HTML is unparsable because its data is in
+        JavaScript variables and it uses document.write() everywhere.
+        """
 
-    manufacturer = 'MediaLink'
-    model = 'MWN-WAPR300N'
-    parser_type = 'regex'
-    comment = ("This router's HTML is unparsable because its data is in "
-               "JavaScript variables and it uses document.write everywhere.")
-    requests = {
-        'Login Credentials': [{'method': 'get', 'url': '/login.asp' }],
-        'Client List': [{'method': 'get', 'url': '/lan_dhcp_clients.asp' },
-                        {'method': 'get', 'url': '/updateIptAccount' },],
-        'Filter Type': [{'method': 'get', 'url': '/wireless_filter.asp'}],
-        'Filter List': [{'method': 'get', 'url': '/wireless_filter.asp'}],
-        }
 
+class ResponseManager(BaseResponseManager):
 
     # Map this router's filter type names to our uniform filter type names.
     FILTER_TYPE_MAP = {'allow': 'whitelist',
                        'deny': 'blacklist',
                        'disabled': 'disabled'}
 
-    def __init__(self):
-        pass
+    def __init__(self, *args, **kwargs):
+        super(ResponseManager, self).__init__(*args, **kwargs)
 
     def get_login_credentials(self, responses):
         """
@@ -77,7 +80,7 @@ class Manager:
             raise ValueError('get_filter_type requires a response')
         filter_re = re.compile(r'var filter_mode = "(\w+)";');
         filter_type = utils.re_first_capture(filter_re, responses[0].body)
-        return Manager.FILTER_TYPE_MAP.get(filter_type)
+        return ResponseManager.FILTER_TYPE_MAP.get(filter_type)
 
     def get_filter_list(self, responses):
         """
@@ -129,3 +132,41 @@ class Manager:
                 clients.append(NetClient(ip=data[0],
                                          conn_type=data[7].lower()))
         return clients
+
+
+class RequestManager(BaseRequestManager):
+
+    def __init__(self, *args, **kwargs):
+        super(RequestManager, self).__init__(*args, **kwargs)
+
+    def get_login_credentials(self):
+        """
+        Returns a list of requests that the client will need to issue to
+        the router to retrieve login credentials. Most routers don't support
+        this, because obviously a device should not send you the credentials
+        you need to log into it. But this device does, so let's get them.
+        """
+        return [HttpRequest(method='get', url='/login.asp')]
+
+    def get_filter_type(self):
+        """
+        Returns a list of queries the client must issue to the router to get
+        the active filter type. Filter types can be 'blacklist', 'whitelist',
+        'disabled' or None.
+        """
+        return [HttpRequest(method='get', url='/wireless_filter.asp')]
+
+    def get_filter_list(self):
+        """
+        Returns a list of queries the client must issue to the router to get
+        the list of MAC addresses that are currently on the black/white list.
+        """
+        return [HttpRequest(method='get', url='/wireless_filter.asp')]
+
+    def get_client_list(self):
+        """
+        Returns a list of queries the client must issue to the router to get
+        the list of clients currently attached to the network.
+        """
+        return [HttpRequest(method='get', url='/lan_dhcp_clients.asp'),
+                HttpRequest(method='get', url='/updateIptAccount'),]

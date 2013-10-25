@@ -2,7 +2,7 @@ from django.test import TestCase
 from em.tests import load_fixture
 from em.libs import utils
 from em.libs.http_response import HttpResponse
-from em.libs.routers.medialink.mwn_wapr300n import Manager
+from em.libs.routers.medialink.mwn_wapr300n import ResponseManager
 
 class MwnWapr300NTest(TestCase):
 
@@ -14,14 +14,14 @@ class MwnWapr300NTest(TestCase):
         return load_fixture('{0}/{1}'.format(prefix, fixture))
 
     def test_get_login_credentials(self):
-        manager = Manager()
+        manager = ResponseManager()
         responses = [HttpResponse(body=self.load('login.asp'))]
         (login, password) = manager.get_login_credentials(responses)
         self.assertEqual("Homer", login)
         self.assertEqual("FledNanders", password)
 
     def test_get_clients_from_traffic_stats(self):
-        manager = Manager()
+        manager = ResponseManager()
         response = HttpResponse(body=self.load('updateIptAccount.txt'))
         clients = manager.get_clients_from_traffic_stats(response)
         self.assertEqual(18, len(clients))
@@ -31,7 +31,7 @@ class MwnWapr300NTest(TestCase):
         self.assertEqual('wired', clients[17].conn_type)
 
     def test_get_dhcp_clients(self):
-        manager = Manager()
+        manager = ResponseManager()
         response = HttpResponse(body=self.load('lan_dhcp_clients.asp'))
         clients = manager.get_dhcp_clients(response)
         self.assertEqual(5, len(clients))
@@ -57,7 +57,7 @@ class MwnWapr300NTest(TestCase):
         self.assertEqual("00:23:31:6B:A9:89", clients[4].mac)
 
     def test_get_client_list(self):
-        manager = Manager()
+        manager = ResponseManager()
         # get_client_list() needs to look at responses from two
         # different URLs.
         response1 = HttpResponse(body=self.load('lan_dhcp_clients.asp'),
@@ -78,13 +78,13 @@ class MwnWapr300NTest(TestCase):
         self.assertIsNone(clients[5].mac)
 
     def test_get_filter_type(self):
-        manager = Manager()
+        manager = ResponseManager()
         response = HttpResponse(body=self.load('wireless_filter.asp'))
         filter_type = manager.get_filter_type([response])
         self.assertEqual('blacklist', filter_type)
 
     def test_get_filter_list(self):
-        manager = Manager()
+        manager = ResponseManager()
         response = HttpResponse(body=self.load('wireless_filter.asp'))
         filter_list = manager.get_filter_list([response])
         expected = ['00:15:af:e6:6b:da', '00:15:af:e6:6b:77',

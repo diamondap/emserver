@@ -3,7 +3,6 @@ from django.core.urlresolvers import reverse
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.views.decorators.http import require_GET
-from em.libs.form_handler import FormHandler
 from em.models import Router
 from em.forms import RouterForm
 import django_filters

@@ -200,11 +200,13 @@ Host:192.168.1.1
 Origin:http://192.168.1.1
 Referer:http://192.168.1.1/wireless_filter.asp
 User-Agent:Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/30.0.1599.101 Safari/537.36
-Form Dataview sourceview URL encoded
+
+Form Data
 GO:wireless_filter.asp
 maclist:00:15:af:e6:6b:da 00:15:af:e6:6b:99
 ssidIndex:0
 FilterMode:deny
+
 Response Headersview source
 Cache-Control:no-cache
 Content-Type:text/html
