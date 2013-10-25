@@ -44,7 +44,8 @@ INSTALLED_APPS = (
     #'pagination',
     'sorting_bootstrap',
     'django_filters',
-    'crispy_forms'
+    'crispy_forms',
+    'django_nose'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -89,7 +90,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/dev/howto/static-files/
 
 STATIC_URL = '/static/'
-
+TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 
 
 REST_FRAMEWORK = {

@@ -1,7 +1,7 @@
 from urllib.parse import urlparse
 from requests.models import Response
 from bs4 import BeautifulSoup
-from em.models import Router, RouterPageAttribute
+from em.models import Router, RouterPage, RouterPageAttribute
 
 class Identifier:
     """
@@ -158,7 +158,12 @@ class Identifier:
 
     def identify(self):
         """
-        Returns the router type id, make, model and firmware.
+        Returns the router that matches this page's attributes.
         """
-        # TODO: Implement identify
-        return Router.objects.all()[0]
+        # TODO: Implement identify properly. Currently just checking title.
+        router_page = RouterPage.objects.filter(
+            attributes__type='title',
+            attributes__value=self.title()).first()
+        if router_page:
+            return router_page.router
+        return None

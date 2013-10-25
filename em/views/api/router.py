@@ -17,5 +17,3 @@ def identify(request):
                      "firmware_version": router.firmware_version,
                      "auth_protocol": router.auth_protocol,
                      "id": router.id})
-    #return Response(request.DATA)
-    #return Response({"message": "Hello for today! See you tomorrow!"})
