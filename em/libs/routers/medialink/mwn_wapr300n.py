@@ -149,6 +149,17 @@ class RequestManager(BaseRequestManager):
         """
         return [HttpRequest(method='get', url='/login.asp')]
 
+    def get_login_request(self, responses):
+        """
+        Returns the request that the client will have to make to the router
+        to log in.
+        """
+        (login, password) = ResponseManager().get_login_credentials(responses)
+        data = {'checkEn': 0,
+                'Username': login,
+                'Password': password}
+        return HttpRequest(method='post', url='/LoginCheck', data=data)
+
     def get_filter_type(self):
         """
         Returns a list of queries the client must issue to the router to get

@@ -7,8 +7,12 @@ api_urlpatterns = patterns(
 
     # All of the API urls start with /api/v1
     url(r'^identify_router', api.router.identify, name='identify_router'),
-    url(r'^creds_request/(?P<router_id>\d+)/$', api.router.get_credentials_requests,
-        name='credentials_request')
+    url(r'^creds_request/(?P<router_id>\d+)/$',
+        api.router.get_credentials_requests,
+        name='credentials_request'),
+    url(r'^login_request/(?P<router_id>\d+)/$',
+        api.router.get_login_request,
+        name='login_request')
 )
 
 web_urlpatterns = patterns(

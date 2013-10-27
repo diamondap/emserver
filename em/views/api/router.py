@@ -1,9 +1,11 @@
+import json
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from em.libs.routers.identifier import Identifier
 from em.libs.registry import get_manager
 from em.libs.json_serializable import to_list
 from em.models import Router
+from em.libs.http import HttpRequest, HttpResponse
 
 @api_view(['POST'])
 def identify(request):
@@ -30,3 +32,21 @@ def get_credentials_requests(request, router_id):
     manager = get_manager(router.manufacturer, router.model)
     requests = manager.request_manager.get_login_credentials()
     return Response(to_list(requests))
+
+@api_view(['POST'])
+def get_login_request(request, router_id):
+    """
+    Returns the requests the client will need to make to
+    get router credentials.
+    """
+    body = request.DATA.get('body')
+    port = request.DATA.get('port')
+    url = request.DATA.get('url')
+    headers = request.DATA.get('headers')
+    resp = HttpResponse(url=url, method='get', status_code=200,
+                        headers=headers, body=body)
+
+    router = Router.objects.get(pk=router_id)
+    manager = get_manager(router.manufacturer, router.model)
+    request = manager.request_manager.get_login_request([resp])
+    return Response(request)
