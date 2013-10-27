@@ -2,7 +2,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from em.libs.routers.identifier import Identifier
 from em.libs.registry import get_manager
-from em.libs.json_serializable import list_to_json, list_from_json
+from em.libs.json_serializable import to_list
 from em.models import Router
 
 @api_view(['POST'])
@@ -28,6 +28,5 @@ def get_credentials_requests(request, router_id):
     """
     router = Router.objects.get(pk=router_id)
     manager = get_manager(router.manufacturer, router.model)
-    # TODO: Fix get_manager so it returns only one object!
-    requests = manager[0].request_manager.get_login_credentials()
-    return Response(list_to_json(requests))
+    requests = manager.request_manager.get_login_credentials()
+    return Response(to_list(requests))

@@ -38,8 +38,9 @@ class RouterTest(TestCase):
         self.assertEqual(200, response.status_code)
 
         data = json.loads(response.content.decode(encoding='UTF-8'))
+        print(data)
         self.assertEqual(1, len(data))
         self.assertEqual('/login.asp', data[0]['url'])
         self.assertEqual('get', data[0]['method'])
-        self.assertEqual({}, data[0]['headers'])
-        self.assertEqual({}, data[0]['data'])
+        self.assertTrue('headers' in data[0].keys())
+        self.assertTrue('data' in data[0].keys())

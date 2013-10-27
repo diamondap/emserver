@@ -23,12 +23,7 @@ def list_to_json(items):
     """
     Converts a list of JsonSerializable objects to JSON.
     """
-    dictionaries = []
-    for item in items:
-        if not isinstance(item, JsonSerializable):
-            raise ValueError('Items must of type JsonSerializable')
-        dictionaries.append(item.__dict__)
-    return json.dumps(dictionaries)
+    return json.dumps(to_list(items))
 
 def list_from_json(json_string, klass):
     """
@@ -41,3 +36,14 @@ def list_from_json(json_string, klass):
     for dictionary in dictionaries:
         object_list.append(klass(**dictionary))
     return object_list
+
+def to_list(items):
+    """
+    Converts a list of JsonSerializable objects to a list of dictionaries.
+    """
+    dictionaries = []
+    for item in items:
+        if not isinstance(item, JsonSerializable):
+            raise ValueError('Items must of type JsonSerializable')
+        dictionaries.append(item.__dict__)
+    return dictionaries

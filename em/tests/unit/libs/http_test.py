@@ -1,6 +1,6 @@
 from django.test import TestCase
 from em.libs.http import HttpRequest, HttpResponse
-from em.libs.json_serializable import list_to_json, list_from_json
+from em.libs.json_serializable import list_to_json, list_from_json, to_list
 from em.libs import utils
 
 class HttpTest(TestCase):
@@ -71,3 +71,14 @@ class HttpTest(TestCase):
         self.assertEqual(r1.headers, responses[0].headers)
         self.assertIsInstance(responses[0], HttpResponse)
         self.assertIsInstance(responses[1], HttpResponse)
+
+    def test_to_list(self):
+        r1 = self.get_response()
+        r2 = self.get_response()
+        responses = to_list([r1, r2])
+        self.assertEqual(r1.url, responses[0]['url'])
+        self.assertEqual(r1.method, responses[0]['method'])
+        self.assertEqual(r1.body, responses[0]['body'])
+        self.assertEqual(r1.headers, responses[0]['headers'])
+        self.assertIsInstance(responses[0], dict)
+        self.assertIsInstance(responses[1], dict)
