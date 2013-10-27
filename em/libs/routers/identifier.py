@@ -11,7 +11,7 @@ class Identifier:
     """
 
     def __init__(self, *args, **kwargs):
-        self.html = kwargs.get('html', None)
+        self.body = kwargs.get('body', None)
         self.url = kwargs.get('url', None)
         self.headers = kwargs.get('headers', None)
         self.port = kwargs.get('port', None)
@@ -33,7 +33,7 @@ class Identifier:
             for name in http_response.headers.keys():
                 headers[name] = http_response.headers[name]
             parsed_url = urlparse(url)
-            return Identifier(html=http_response.text,
+            return Identifier(body=http_response.text,
                               url=parsed_url.path,  # use the relative URL!
                               port=parsed_url.port,
                               headers=headers)
@@ -47,7 +47,7 @@ class Identifier:
         self.parse_exception if parsing failed.
         """
         try:
-            self.doc = BeautifulSoup(self.html)
+            self.doc = BeautifulSoup(self.body)
             return True
         except (BaseException, TypeError) as ex:
             self.parse_exception = ex

@@ -17,7 +17,7 @@ class RouterTest(TestCase):
 
     def test_identify(self):
         html = self.load('login.asp')
-        data = {'html': html, 'port': 80, 'url': '/relative.html',
+        data = {'body': html, 'port': 80, 'url': '/relative.html',
                 'headers': {'header1': 'value1', 'header2': 'value2'}}
         client = tests.admin_client()
         response = client.post(reverse('identify_router'), data)

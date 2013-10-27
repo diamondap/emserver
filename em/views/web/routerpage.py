@@ -94,7 +94,7 @@ def build_page_from_identifier(request, router_id, identifier):
     router = Router.objects.get(pk=router_id)
     page = RouterPage(router=router)
     page.relative_url = identifier.url
-    page.body = identifier.html
+    page.body = identifier.body
     page.save()
 
     title = page.get_title()

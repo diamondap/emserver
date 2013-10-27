@@ -7,12 +7,12 @@ from em.models import Router
 
 @api_view(['POST'])
 def identify(request):
-    html = request.DATA.get('html')
+    body = request.DATA.get('body')
     port = request.DATA.get('port')
     url = request.DATA.get('url')
     headers = request.DATA.get('headers')
 
-    identifier = Identifier(html=html, url=url, port=port, headers=headers)
+    identifier = Identifier(body=body, url=url, port=port, headers=headers)
     router = identifier.identify()
     return Response({"manufacturer": router.manufacturer,
                      "model": router.model,

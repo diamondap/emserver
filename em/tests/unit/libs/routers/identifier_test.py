@@ -13,7 +13,7 @@ class IdentifierTest(TestCase):
                         'header3': 'header3_value'}
 
     def get_id_instance(self):
-        return Identifier(html=self.html, url=self.url,
+        return Identifier(body=self.html, url=self.url,
                           port=self.port, headers=self.headers)
 
     def test_parse_good_html(self):
@@ -23,7 +23,7 @@ class IdentifierTest(TestCase):
 
     def test_parse_bad_html(self):
         invalid_html = 999  # integer is not valid HTML
-        id_obj = Identifier(invalid_html, url=self.url,
+        id_obj = Identifier(body=invalid_html, url=self.url,
                             port=self.port, headers=self.headers)
         self.assertFalse(id_obj.parsing_succeeded())
         self.assertIsInstance(id_obj.parse_exception, BaseException)
@@ -86,7 +86,7 @@ class IdentifierTest(TestCase):
     def test_identify(self):
         html = load_fixture('routers/medialink/mwn-wapr300n/login.asp')
         identifier = Identifier(
-            html=html, url='login.asp', port=80, headers={})
+            body=html, url='login.asp', port=80, headers={})
         router = identifier.identify()
         self.assertEqual("MediaLink", router.manufacturer)
         self.assertEqual("MWN-WAPR300N", router.model)
