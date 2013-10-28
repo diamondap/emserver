@@ -15,6 +15,13 @@ class Identifier:
         self.url = kwargs.get('url', None)
         self.headers = kwargs.get('headers', None)
         self.port = kwargs.get('port', None)
+
+        # We're currently not using the following two kw params,
+        # but we may get them. They're here for consistency with
+        # the RouterResponse constructor.
+        self.method = kwargs.get('method', None)
+        self.status_code = kwargs.get('status_code', None)
+
         self.doc = None
         self.parse_exception = None
         self._parse_html()

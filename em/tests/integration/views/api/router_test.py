@@ -17,8 +17,11 @@ class RouterTest(TestCase):
 
     def test_identify(self):
         html = self.load('login.asp')
-        data = {'body': html, 'port': 80, 'url': '/relative.html',
-                'headers': {'header1': 'value1', 'header2': 'value2'}}
+        json_data = json.dumps({'body': html, 'port': 80,
+                                'url': '/relative.html',
+                                'headers': {'header1': 'value1',
+                                            'header2': 'value2'}})
+        data = {'router_response': json_data}
         client = tests.admin_client()
         response = client.post(reverse('identify_router'), data)
         self.assertEqual(200, response.status_code)

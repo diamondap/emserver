@@ -8,15 +8,20 @@ from em.models import Router
 from em.libs.http import RouterRequest, RouterResponse
 
 def get_post_data(request):
-    body = request.DATA.get('body')
-    url = request.DATA.get('url')
-    headers = request.DATA.get('headers')
-    return {'body': body, 'url': url, 'headers': headers}
+    # json = request.DATA.get('router_response')
+    return json.loads(request.DATA.get('router_response'))
+    # post_data = {}
+    # post_data['body'] = request.DATA.get('body')
+    # post_data['url'] = request.DATA.get('url')
+    # post_data['headers'] = request.DATA.get('headers')
+    # post_data['method'] = request.DATA.get('method')
+    # post_data['status_code'] = request.DATA.get('status_code')
+    # post_data['port'] = request.DATA.get('port')
+    # return post_data
 
 @api_view(['POST'])
 def identify(request):
     post_data = get_post_data(request)
-    post_data['port'] = request.DATA.get('port')
     identifier = Identifier(**post_data)
     router = identifier.identify()
     return Response({"manufacturer": router.manufacturer,
@@ -46,8 +51,6 @@ def get_login_request(request, router_id):
     # gotten a response. It forwards that response in the POST. We
     # construct a RouterResponse from it...
     post_data = get_post_data(request)
-    post_data['method'] = request.DATA.get('method')
-    post_data['status_code'] = request.DATA.get('status_code')
     resp = RouterResponse(**post_data)
 
     # Then we find the router manager. We pass in the router's response

@@ -11,6 +11,9 @@ class RouterRequest(JsonSerializable):
         self.headers = kwargs.get('headers')
         self.data = kwargs.get('data')
 
+    def __str__(self):
+        return "RouterRequest {0} {1}".format(self.method, self.url)
+
 
 class RouterResponse(JsonSerializable):
     """
@@ -22,8 +25,9 @@ class RouterResponse(JsonSerializable):
         self.url = kwargs.get('url')
         self.method = kwargs.get('method')
         self.status_code = kwargs.get('status_code')
+        self.port = kwargs.get('port')
         self.headers = kwargs.get('headers')
         self.body = kwargs.get('body')
 
     def __str__(self):
-        return "HttpResponse to {0} {1}".format(self.method, self.url)
+        return "RouterResponse {0} {1}".format(self.method, self.url)
