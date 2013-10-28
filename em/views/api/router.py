@@ -1,6 +1,7 @@
 import json
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
+from em import serializers
 from em.libs.routers.identifier import Identifier
 from em.libs.registry import get_manager
 from em.libs.json_serializable import to_list
@@ -24,11 +25,8 @@ def identify(request):
     post_data = get_post_data(request)
     identifier = Identifier(**post_data)
     router = identifier.identify()
-    return Response({"manufacturer": router.manufacturer,
-                     "model": router.model,
-                     "firmware_version": router.firmware_version,
-                     "auth_protocol": router.auth_protocol,
-                     "id": router.id})
+    serializer = serializers.RouterSerializer(router)
+    return Response(serializer.data)
 
 @api_view(['GET'])
 def get_credentials_requests(request, router_id):
