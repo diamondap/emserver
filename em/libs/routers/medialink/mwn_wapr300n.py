@@ -147,7 +147,8 @@ class RequestManager(BaseRequestManager):
         this, because obviously a device should not send you the credentials
         you need to log into it. But this device does, so let's get them.
         """
-        return [models.RouterRequest(method='get', url='/login.asp')]
+        return [models.RouterRequest(method='get', url='/login.asp',
+                                     request_type='login_credentials')]
 
     def get_login_request(self, responses):
         """
@@ -159,7 +160,9 @@ class RequestManager(BaseRequestManager):
                 'Username': login,
                 'Password': password}
         return models.RouterRequest(method='post',
-                                    url='/LoginCheck', data=data)
+                                    url='/LoginCheck',
+                                    data=data,
+                                    request_type='login')
 
     def get_filter_type(self):
         """
@@ -167,14 +170,18 @@ class RequestManager(BaseRequestManager):
         the active filter type. Filter types can be 'blacklist', 'whitelist',
         'disabled' or None.
         """
-        return [models.RouterRequest(method='get', url='/wireless_filter.asp')]
+        return [models.RouterRequest(method='get',
+                                     url='/wireless_filter.asp',
+                                     request_type='filter_type')]
 
     def get_filter_list(self):
         """
         Returns a list of queries the client must issue to the router to get
         the list of MAC addresses that are currently on the black/white list.
         """
-        return [models.RouterRequest(method='get', url='/wireless_filter.asp')]
+        return [models.RouterRequest(method='get',
+                                     url='/wireless_filter.asp',
+                                     request_type='filter_list')]
 
     def get_client_list(self):
         """
@@ -182,5 +189,8 @@ class RequestManager(BaseRequestManager):
         the list of clients currently attached to the network.
         """
         return [models.RouterRequest(method='get',
-                                     url='/lan_dhcp_clients.asp'),
-                models.RouterRequest(method='get', url='/updateIptAccount'),]
+                                     url='/lan_dhcp_clients.asp',
+                                     request_type='client_list'),
+                models.RouterRequest(method='get',
+                                     url='/updateIptAccount',
+                                     request_type='client_list'),]

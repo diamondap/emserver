@@ -233,6 +233,7 @@ class RouterRequest():
         self.method = kwargs.get('method')
         self.headers = kwargs.get('headers')
         self.data = kwargs.get('data')
+        self.request_type = kwargs.get('request_type')
 
     def __str__(self):
         return "RouterRequest {0} {1}".format(self.method, self.url)

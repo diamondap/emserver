@@ -37,6 +37,7 @@ class RouterRequestSerializer(serializers.Serializer):
     port = serializers.IntegerField(required=True)
     headers = DictionaryField(required=False)
     data = DictionaryField(required=False)
+    request_type = serializers.CharField(required=True)
 
     def restore_object(self, attrs, instance=None):
         if instance:
@@ -45,6 +46,8 @@ class RouterRequestSerializer(serializers.Serializer):
             instance.method = attrs.get('method', instance.method)
             instance.headers = attrs.get('headers', instance.headers)
             instance.data = attrs.get('data', instance.data)
+            instance.request_type = attrs.get(
+                'request_type', instance.request_type)
             return instance
         return models.RouterRequest(**attrs)
 
