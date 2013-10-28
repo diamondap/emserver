@@ -1,5 +1,6 @@
 import json
 from em import models, serializers
+from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from em import serializers
@@ -13,11 +14,15 @@ def get_post_data(request):
 
 @api_view(['POST'])
 def identify(request):
-    post_data = get_post_data(request)
-    identifier = Identifier(**post_data)
-    router = identifier.identify()
-    serializer = serializers.RouterSerializer(router)
-    return Response(serializer.data)
+    serializer = serializers.RouterResponseSerializer(data=request.DATA)
+    if serializer.is_valid():
+        router_response = serializer.object
+        identifier = Identifier.get_instance(router_response)
+        router = identifier.identify()
+        serializer = serializers.RouterSerializer(router)
+        return Response(serializer.data)
+    return Response(serializer.errors,
+                    status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET'])
 def get_credentials_requests(request, router_id):
@@ -28,7 +33,7 @@ def get_credentials_requests(request, router_id):
     router = models.Router.objects.get(pk=router_id)
     manager = get_manager(router.manufacturer, router.model)
     requests = manager.request_manager.get_login_credentials()
-    serializer = serializers.RouterRequestSerializer(requests)
+    serializer = serializers.RouterRequestSerializer(requests, many=True)
     return Response(serializer.data)
 
 @api_view(['POST'])

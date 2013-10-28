@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
+from urllib.parse import urlparse
 
 class Router(models.Model):
     """
@@ -254,3 +255,18 @@ class RouterResponse():
 
     def __str__(self):
         return "RouterResponse {0} {1}".format(self.method, self.url)
+
+    @classmethod
+    def convert_headers(self, http_headers):
+        """
+        Convert special http_headers object to standard dict.
+        """
+        headers = {}
+        for key in http_headers:
+            headers[key] = http_headers[key]
+        return headers
+
+    @classmethod
+    def get_port_from_url(self, url):
+        parsed = urlparse(url)
+        return parsed.port

@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect
 from django.core.urlresolvers import reverse
 from django.views.decorators.http import require_GET
 from django.core.exceptions import ObjectDoesNotExist
-from em.models import Router, RouterPage, RouterPageAttribute
+from em.models import Router, RouterPage, RouterPageAttribute, RouterResponse
 from em.forms import RouterPageForm, RouterPageAutoCreateForm
 from em.libs.routers.identifier import Identifier
 
@@ -70,8 +70,15 @@ def auto_create(request, router):
     if request.method == 'POST':
         url = request.POST.get('url')
         if url:
-            identifier = Identifier.get_instance(
-                url, requests.get(url, timeout=3))
+            http_response = requests.get(url, timeout=3)
+            router_response = RouterResponse(
+                url=url,
+                method='get',
+                status_code=http_response.status_code,
+                port=RouterResponse.get_port_from_url(url),
+                headers=RouterResponse.convert_headers(http_response.headers),
+                body=http_response.text)
+            identifier = Identifier.get_instance(router_response)
             if identifier.parsing_succeeded():
                 page = build_page_from_identifier(request, router, identifier)
                 url = reverse('routerpage_detail', kwargs={'pk': page.pk})

@@ -27,25 +27,25 @@ class Identifier:
         self._parse_html()
 
     @classmethod
-    def get_instance(self, url, http_response):
+    def get_instance(self, router_response):
         """
         Given a URL and an instance of requests.models.Response, this
-        returns a fully-instantiated Identifier. Param URL is a string
-        URL, like 'http://192.168.1.1/login.html'. Param http_response
+        returns a fully-instantiated Identifier. Param router_response
         is an instance of requests.models.Response. Return value is an
         instance of em.libs.router.identifier.Identifier.
         """
-        if http_response.status_code == 200:
+        if router_response.status_code == 200:
             headers = {}
-            for name in http_response.headers.keys():
-                headers[name] = http_response.headers[name]
-            parsed_url = urlparse(url)
-            return Identifier(body=http_response.text,
-                              url=parsed_url.path,  # use the relative URL!
-                              port=parsed_url.port,
+            for name in router_response.headers.keys():
+                headers[name] = router_response.headers[name]
+            #parsed_url = urlparse(url)
+            return Identifier(body=router_response.body,
+                              url=router_response.url,
+                              port=router_response.port,
                               headers=headers)
         else:
-            raise RuntimeError("Cannot handle a non-200 HTTP Response.")
+            raise RuntimeError("Cannot handle HTTP Response {0}.".format(
+                router_response.status_code))
 
     def _parse_html(self):
         """

@@ -17,13 +17,17 @@ class RouterTest(TestCase):
 
     def test_identify(self):
         html = self.load('login.asp')
-        json_data = json.dumps({'body': html, 'port': 80,
-                                'url': '/relative.html',
-                                'headers': {'header1': 'value1',
-                                            'header2': 'value2'}})
-        data = {'router_response': json_data}
+        data = {'body': html, 'port': 80,
+                'method': 'get',
+                'status_code': 200,
+                'url': '/relative.html',
+                'headers': {'header1': 'value1',
+                            'header2': 'value2'}}
         client = tests.admin_client()
-        response = client.post(reverse('identify_router'), data)
+        response = client.post(reverse('identify_router'),
+                               content_type='application/json',
+                               data=json.dumps(data))
+        print(response.content)
         self.assertEqual(200, response.status_code)
 
         router = models.Router.objects.first()
