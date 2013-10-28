@@ -217,3 +217,40 @@ class DeviceName(models.Model):
 
     def __str__(self):
         return self.name
+
+# End of Django models. Below are non-Django models.
+
+class RouterRequest():
+    """
+    This class contains information about HTTP requests that the client will
+    have to send to the router. This is not a Django model. We don't save
+    these.
+    """
+    def __init__(self, *args, **kwargs):
+        self.url = kwargs.get('url')
+        self.port = kwargs.get('port')
+        self.method = kwargs.get('method')
+        self.headers = kwargs.get('headers')
+        self.data = kwargs.get('data')
+
+    def __str__(self):
+        return "RouterRequest {0} {1}".format(self.method, self.url)
+
+
+class RouterResponse():
+    """
+    This class contains information about an HTTP response that our remote
+    client received and then passed back to the server. This is not a
+    Django model. We don't save these.
+    """
+
+    def __init__(self, *args, **kwargs):
+        self.url = kwargs.get('url')
+        self.method = kwargs.get('method')
+        self.status_code = kwargs.get('status_code')
+        self.port = kwargs.get('port')
+        self.headers = kwargs.get('headers')
+        self.body = kwargs.get('body')
+
+    def __str__(self):
+        return "RouterResponse {0} {1}".format(self.method, self.url)
