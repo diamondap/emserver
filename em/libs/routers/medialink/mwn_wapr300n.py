@@ -2,7 +2,7 @@ import re
 from em.libs import utils
 from em import models
 from em.libs.base import BaseManager, BaseResponseManager, BaseRequestManager
-from em.libs.net_client import NetClient
+
 
 class Manager(BaseManager):
 
@@ -66,7 +66,7 @@ class ResponseManager(BaseResponseManager):
         # attributes from the second list overwrite attributes from
         # the first list. Since the dhcp_clients list has more up-to-date
         # info, we want attributes from that list to win.
-        return NetClient.merge_lists(traffic_clients, dhcp_clients)
+        return models.NetClient.merge_lists(traffic_clients, dhcp_clients)
 
     def get_filter_type(self, responses):
         """
@@ -111,7 +111,7 @@ class ResponseManager(BaseResponseManager):
             c = c.replace("'", "")
             data = c.split(";")
             clients.append(
-                NetClient(hostname=data[0], ip=data[1], mac=data[2]))
+                models.NetClient(hostname=data[0], ip=data[1], mac=data[2]))
         return clients
 
     def get_clients_from_traffic_stats(self, response):
@@ -122,7 +122,7 @@ class ResponseManager(BaseResponseManager):
         includes stats on clients that have static IP addresses.
 
         The body this response in plain text, not HTML. The return value is
-        a list of em.libs.NetClient objects.
+        a list of NetClient objects.
         """
         clients = []
         text = response.body
@@ -130,8 +130,8 @@ class ResponseManager(BaseResponseManager):
             line = line.strip()
             data = line.split(';')
             if len(data) == 8:
-                clients.append(NetClient(ip=data[0],
-                                         conn_type=data[7].lower()))
+                clients.append(models.NetClient(ip=data[0],
+                                                conn_type=data[7].lower()))
         return clients
 
 
