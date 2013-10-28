@@ -1,7 +1,7 @@
 import re
 from em.libs import utils
 from em.libs.base import BaseManager, BaseResponseManager, BaseRequestManager
-from em.libs.http import HttpRequest
+from em.libs.http import RouterRequest
 from em.libs.net_client import NetClient
 
 class Manager(BaseManager):
@@ -37,7 +37,7 @@ class ResponseManager(BaseResponseManager):
         This returns the login name and password from the HTML of the
         login.asp page.
 
-        Param responses is a list of em.libs.HttpResponse objects.
+        Param responses is a list of em.libs.http.RouterResponse objects.
 
         Returns a tuple: (login, password).
         """
@@ -147,7 +147,7 @@ class RequestManager(BaseRequestManager):
         this, because obviously a device should not send you the credentials
         you need to log into it. But this device does, so let's get them.
         """
-        return [HttpRequest(method='get', url='/login.asp')]
+        return [RouterRequest(method='get', url='/login.asp')]
 
     def get_login_request(self, responses):
         """
@@ -158,7 +158,7 @@ class RequestManager(BaseRequestManager):
         data = {'checkEn': 0,
                 'Username': login,
                 'Password': password}
-        return HttpRequest(method='post', url='/LoginCheck', data=data)
+        return RouterRequest(method='post', url='/LoginCheck', data=data)
 
     def get_filter_type(self):
         """
@@ -166,19 +166,19 @@ class RequestManager(BaseRequestManager):
         the active filter type. Filter types can be 'blacklist', 'whitelist',
         'disabled' or None.
         """
-        return [HttpRequest(method='get', url='/wireless_filter.asp')]
+        return [RouterRequest(method='get', url='/wireless_filter.asp')]
 
     def get_filter_list(self):
         """
         Returns a list of queries the client must issue to the router to get
         the list of MAC addresses that are currently on the black/white list.
         """
-        return [HttpRequest(method='get', url='/wireless_filter.asp')]
+        return [RouterRequest(method='get', url='/wireless_filter.asp')]
 
     def get_client_list(self):
         """
         Returns a list of queries the client must issue to the router to get
         the list of clients currently attached to the network.
         """
-        return [HttpRequest(method='get', url='/lan_dhcp_clients.asp'),
-                HttpRequest(method='get', url='/updateIptAccount'),]
+        return [RouterRequest(method='get', url='/lan_dhcp_clients.asp'),
+                RouterRequest(method='get', url='/updateIptAccount'),]

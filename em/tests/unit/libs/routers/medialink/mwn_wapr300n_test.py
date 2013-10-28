@@ -1,7 +1,7 @@
 from django.test import TestCase
 from em.tests import load_fixture
 from em.libs import utils
-from em.libs.http import HttpResponse
+from em.libs.http import RouterResponse
 from em.libs.routers.medialink.mwn_wapr300n import ResponseManager
 
 class MwnWapr300NTest(TestCase):
@@ -15,14 +15,14 @@ class MwnWapr300NTest(TestCase):
 
     def test_get_login_credentials(self):
         manager = ResponseManager()
-        responses = [HttpResponse(body=self.load('login.asp'))]
+        responses = [RouterResponse(body=self.load('login.asp'))]
         (login, password) = manager.get_login_credentials(responses)
         self.assertEqual("Homer", login)
         self.assertEqual("FledNanders", password)
 
     def test_get_clients_from_traffic_stats(self):
         manager = ResponseManager()
-        response = HttpResponse(body=self.load('updateIptAccount.txt'))
+        response = RouterResponse(body=self.load('updateIptAccount.txt'))
         clients = manager.get_clients_from_traffic_stats(response)
         self.assertEqual(18, len(clients))
         self.assertEqual('192.168.1.102', clients[2].ip)
@@ -32,7 +32,7 @@ class MwnWapr300NTest(TestCase):
 
     def test_get_dhcp_clients(self):
         manager = ResponseManager()
-        response = HttpResponse(body=self.load('lan_dhcp_clients.asp'))
+        response = RouterResponse(body=self.load('lan_dhcp_clients.asp'))
         clients = manager.get_dhcp_clients(response)
         self.assertEqual(5, len(clients))
 
@@ -60,9 +60,9 @@ class MwnWapr300NTest(TestCase):
         manager = ResponseManager()
         # get_client_list() needs to look at responses from two
         # different URLs.
-        response1 = HttpResponse(body=self.load('lan_dhcp_clients.asp'),
+        response1 = RouterResponse(body=self.load('lan_dhcp_clients.asp'),
                                  url='/lan_dhcp_clients.asp')
-        response2 = HttpResponse(body=self.load('updateIptAccount.txt'),
+        response2 = RouterResponse(body=self.load('updateIptAccount.txt'),
                                  url='/updateIptAccount')
         clients = manager.get_client_list([response1, response2])
         self.assertEqual(18, len(clients))
@@ -79,13 +79,13 @@ class MwnWapr300NTest(TestCase):
 
     def test_get_filter_type(self):
         manager = ResponseManager()
-        response = HttpResponse(body=self.load('wireless_filter.asp'))
+        response = RouterResponse(body=self.load('wireless_filter.asp'))
         filter_type = manager.get_filter_type([response])
         self.assertEqual('blacklist', filter_type)
 
     def test_get_filter_list(self):
         manager = ResponseManager()
-        response = HttpResponse(body=self.load('wireless_filter.asp'))
+        response = RouterResponse(body=self.load('wireless_filter.asp'))
         filter_list = manager.get_filter_list([response])
         expected = ['00:15:af:e6:6b:da', '00:15:af:e6:6b:77',
                     '00:15:af:e6:6b:88', '00:15:af:e6:6b:99']

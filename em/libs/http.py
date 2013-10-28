@@ -1,6 +1,6 @@
 from em.libs.json_serializable import JsonSerializable
 
-class HttpRequest(JsonSerializable):
+class RouterRequest(JsonSerializable):
     """
     This class contains information about HTTP requests that the client will
     have to send to the router.
@@ -12,7 +12,7 @@ class HttpRequest(JsonSerializable):
         self.data = kwargs.get('data')
 
 
-class HttpResponse(JsonSerializable):
+class RouterResponse(JsonSerializable):
     """
     This class contains information about an HTTP response that our remote
     client received and then passed back to the server.
