@@ -66,5 +66,4 @@ class RouterResponseSerializer(serializers.Serializer):
             instance.headers = attrs.get('headers', instance.headers)
             instance.body = attrs.get('body', instance.body)
             return instance
-        print(attrs)
         return models.RouterResponse(**attrs)
